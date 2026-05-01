@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login | CreatorNest</title>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore-compat.js"></script>
+    <style>
+        body { background:#080808; color:white; font-family:sans-serif; display:flex; justify-content:center; align-items:center; min-height:100vh; margin:0; }
+        .card { background:rgba(255,255,255,0.05); padding:30px; border-radius:20px; width:320px; text-align:center; border:1px solid #333; }
+        input { width:100%; padding:12px; margin:10px 0; background:#151515; border:1px solid #444; border-radius:8px; color:white; box-sizing:border-box; outline:none; }
+        button { background:#FFD700; color:black; padding:12px; width:100%; border:none; border-radius:8px; font-weight:bold; cursor:pointer; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h2 style="color:#FFD700">Agent Login</h2>
+        <input type="number" id="phone" placeholder="WhatsApp Number">
+        <button onclick="processLogin()">LOGIN</button>
+        <p style="margin-top:15px; font-size:13px;">No account? <a href="register.html" style="color:#FFD700">Register Now</a></p>
+    </div>
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyDNOjenPLwHeo0YGManiQP7qu76y6LgdYQ",
+            authDomain: "creator-nest-7fb3a.firebaseapp.com",
+            projectId: "creator-nest-7fb3a",
+            appId: "1:1019440836188:web:530fdfb5732be69b7bc099"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+
+        function processLogin() {
+            const phone = document.getElementById('phone').value;
+            if(!phone) return alert("Enter number!");
+
+            db.collection("agents").doc(phone).get().then((doc) => {
+                if (doc.exists && doc.data().status === "active") {
+                    // CRITICAL FIX: Saving information permanently in browser
+                    localStorage.setItem("userPhone", phone);
+                    localStorage.setItem("isLoggedIn", "true"); 
+                    
+                    alert("Login Successful! ✅");
+                    window.location.href = "index.html";
+                } else if (doc.exists) { 
+                    alert("Account status: PENDING verification."); 
+                } else { 
+                    alert("Please Register first!"); 
+                    window.location.href="register.html"; 
+                }
+            }).catch(err => alert("Error: " + err.message));
+        }
+    </script>
+</body>
+</html>

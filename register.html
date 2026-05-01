@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agent Registration | CreatorNest</title>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore-compat.js"></script>
+    <style>
+        :root { --gold: #FFD700; --dark: #080808; }
+        body { background: var(--dark); color: white; font-family: sans-serif; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; padding: 20px; }
+        .card { background: rgba(255, 255, 255, 0.05); padding: 30px; border-radius: 20px; width: 100%; max-width: 350px; text-align: center; border: 1px solid #333; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        h2 { color: var(--gold); margin-bottom: 20px; }
+        input { width: 100%; padding: 12px; margin: 10px 0; background: #151515; border: 1px solid #444; border-radius: 8px; color: white; box-sizing: border-box; outline: none; transition: 0.3s; }
+        input:focus { border-color: var(--gold); }
+        .info-text { font-size: 11px; color: #888; text-align: left; margin-top: -5px; margin-bottom: 10px; line-height: 1.4; }
+        .id-link { color: var(--gold); text-decoration: none; font-weight: bold; }
+        .qr-box { background: white; padding: 12px; border-radius: 12px; margin: 15px 0; }
+        button { background: var(--gold); color: black; padding: 15px; width: 100%; border: none; border-radius: 10px; font-weight: bold; cursor: pointer; font-size: 1rem; margin-top: 10px; transition: 0.3s; }
+        button:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(255,215,0,0.3); }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <h2>Agent Registration 📝</h2>
+    
+    <input type="text" id="name" placeholder="Full Name">
+    <input type="number" id="phone" placeholder="WhatsApp Number">
+    
+    <input type="number" id="tgId" placeholder="Telegram User ID">
+    <p class="info-text">
+        Bhai, automatic balance ke liye Telegram ID zaroori hai. <br> 
+        ID nikalne ke liye: <a href="https://t.me/userinfobot" target="_blank" class="id-link">Yahan click karein</a>
+    </p>
+
+    <div class="qr-box">
+        <img src="https://api.qrserver.com/v1/create-qr-code/?size=140x140&data=upi://pay?pa=adityahard@fam&pn=CreatorNest" width="140" alt="Payment QR">
+        <p style="color:black; font-weight:bold; margin:8px 0 0; font-size:13px;">adityahard@fam</p>
+    </div>
+    
+    <input type="text" id="txn" placeholder="Transaction ID / UTR">
+    
+    <button onclick="submitRequest()">SUBMIT REQUEST (₹29)</button>
+</div>
+
+<script>
+    const firebaseConfig = {
+        apiKey: "AIzaSyDNOjenPLwHeo0YGManiQP7qu76y6LgdYQ",
+        authDomain: "creator-nest-7fb3a.firebaseapp.com",
+        projectId: "creator-nest-7fb3a",
+        appId: "1:1019440836188:web:530fdfb5732be69b7bc099"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+
+    function submitRequest() {
+        const name = document.getElementById('name').value;
+        const phone = document.getElementById('phone').value;
+        const tgId = document.getElementById('tgId').value;
+        const txn = document.getElementById('txn').value;
+
+        if(!name || !phone || !tgId || !txn) {
+            alert("Bhai, saari details bharna zaroori hai!");
+            return;
+        }
+
+        db.collection("agents").doc(phone).set({
+            name: name,
+            phone: phone,
+            tgId: tgId,
+            txnId: txn,
+            status: "pending",
+            balance: 0,
+            joinedAt: new Date()
+        }).then(() => {
+            alert("Request Sent! Admin verify karke bot link activate kar dega.");
+            window.location.href = "index.html";
+        }).catch((error) => {
+            alert("Error: " + error.message);
+        });
+    }
+</script>
+
+</body>
+</html>

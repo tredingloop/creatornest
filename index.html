@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CreatorNest | Watch • Promote • Earn</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root { --gold: #FFD700; --dark: #080808; --card: rgba(255, 255, 255, 0.05); }
+        body { margin: 0; font-family: 'Poppins', sans-serif; background: var(--dark); color: white; overflow-x: hidden; }
+        nav { display: flex; justify-content: space-between; align-items: center; padding: 15px 5%; background: #000; border-bottom: 1px solid rgba(255,215,0,0.1); position: sticky; top: 0; z-index: 1000; }
+        .logo { font-size: 1.8rem; font-weight: 700; color: var(--gold); text-decoration: none; }
+        .menu-btn { cursor: pointer; display: flex; flex-direction: column; gap: 6px; z-index: 1100; padding: 10px; }
+        .menu-btn span { width: 30px; height: 3px; background: var(--gold); border-radius: 10px; transition: 0.4s; pointer-events: none; }
+        .menu-btn.open span:nth-child(1) { transform: translateY(9px) rotate(45deg); }
+        .menu-btn.open span:nth-child(2) { opacity: 0; }
+        .menu-btn.open span:nth-child(3) { transform: translateY(-9px) rotate(-45deg); }
+        .side-nav { position: fixed; top: 0; right: -300px; width: 260px; height: 100vh; background: #111; display: flex; flex-direction: column; padding: 100px 20px; gap: 10px; transition: 0.4s; z-index: 1050; }
+        .side-nav.active { right: 0; }
+        .side-nav a { color: white; text-decoration: none; font-size: 1.1rem; padding: 15px; border-bottom: 1px solid #222; display: block; }
+        .container { max-width: 1000px; margin: 40px auto; padding: 0 20px; text-align: center; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin-top: 30px; }
+        .task-card { background: var(--card); border: 1px solid rgba(255,215,0,0.1); padding: 25px; border-radius: 20px; }
+        .btn-link { display: block; background: #0088cc; color: white; text-decoration: none; padding: 12px; border-radius: 10px; font-weight: 600; cursor: pointer; margin-top: 15px; border: none; width: 100%; font-family: 'Poppins'; }
+        .overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 2000; }
+        #lock-popup { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: #151515; padding: 40px; border-radius: 25px; border: 2px solid var(--gold); z-index: 2001; text-align: center; width: 280px; }
+        .btn-reg-now { background: var(--gold); color: black; padding: 15px; border-radius: 10px; text-decoration: none; font-weight: 700; display: block; margin-top: 20px; }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="logo">CreatorNest 🪺</div>
+        <div class="menu-btn" id="menuBtn"><span></span><span></span><span></span></div>
+    </nav>
+
+    <div class="side-nav" id="sideNav">
+        <a href="index.html">🏠 Home</a>
+        <a href="register.html">📝 Agent Registration</a>
+        <a href="login.html" id="loginLinkText">🔑 Agent Login</a>
+        <a href="dashboard.html">📊 My Dashboard</a>
+    </div>
+
+    <div class="container">
+        <h1 style="color: var(--gold);">Active Earning Tasks 🔥</h1>
+        <div class="grid">
+            <div class="task-card">
+                <h3>Google Review Work</h3>
+                <button class="btn-link open-lock" data-url="https://t.me/googlereviewworkhome">JOIN & EARN</button>
+            </div>
+            <div class="task-card">
+                <h3>Official Tasks</h3>
+                <button class="btn-link open-lock" data-url="https://t.me/googlereviewworkhome">JOIN & EARN</button>
+            </div>
+            <div class="task-card">
+                <h3>Trending Loop</h3>
+                <button class="btn-link open-lock" data-url="https://t.me/googlereviewworkhome">JOIN & EARN</button>
+            </div>
+            <div class="task-card">
+                <h3>Loop Alerts</h3>
+                <button class="btn-link open-lock" data-url="https://t.me/googlereviewworkhome">JOIN & EARN</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="overlay" id="overlay"></div>
+    <div id="lock-popup">
+        <h2 style="color: var(--gold);">Access Denied! 🛑</h2>
+        <p>Verified Agents only. Registration fees ₹29.</p>
+        <a href="register.html" class="btn-reg-now">BECOME AN AGENT (₹29)</a>
+        <p id="closeBtn" style="margin-top: 20px; cursor: pointer; color: #555;">Close</p>
+    </div>
+
+    <script>
+        const menuBtn = document.getElementById('menuBtn');
+        const sideNav = document.getElementById('sideNav');
+        menuBtn.onclick = () => { menuBtn.classList.toggle('open'); sideNav.classList.toggle('active'); };
+
+        // Auto-check Login Status on Page Load
+        window.onload = () => {
+            if(localStorage.getItem("isLoggedIn") === "true") {
+                document.getElementById('loginLinkText').innerText = "✅ Account Active";
+            }
+        };
+
+        const overlay = document.getElementById('overlay');
+        const popup = document.getElementById('lock-popup');
+
+        document.querySelectorAll('.open-lock').forEach(btn => {
+            btn.onclick = () => {
+                // Check if user is actually logged in
+                if (localStorage.getItem("isLoggedIn") === "true") {
+                    const targetUrl = btn.getAttribute('data-url');
+                    window.location.href = targetUrl;
+                } else {
+                    overlay.style.display = 'block'; 
+                    popup.style.display = 'block';
+                }
+            }
+        });
+
+        document.getElementById('closeBtn').onclick = () => { overlay.style.display = 'none'; popup.style.display = 'none'; }
+    </script>
+</body>
+</html>
