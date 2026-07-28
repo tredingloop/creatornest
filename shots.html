@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bipro Jimmy shots 📈🏆 🔮</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(145deg, #0b0e1a 0%, #1a1f2f 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-radius: 40px;
+            padding: 45px 35px;
+            max-width: 500px;
+            width: 100%;
+            box-shadow: 0 30px 50px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(255, 255, 255, 0.04);
+            text-align: center;
+            border: 1px solid rgba(255, 215, 0, 0.15);
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .pfp-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .pfp-circle {
+            width: 110px;
+            height: 110px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 3px solid rgba(255, 215, 0, 0.4);
+            box-shadow: 0 0 40px rgba(0, 136, 204, 0.3), 0 0 80px rgba(251, 191, 36, 0.15);
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+            animation: pulseBorder 3s infinite ease-in-out;
+        }
+
+        @keyframes pulseBorder {
+            0%, 100% { border-color: rgba(255, 215, 0, 0.4); }
+            50% { border-color: rgba(255, 215, 0, 0.8); }
+        }
+
+        .pfp-circle:hover {
+            transform: scale(1.06) rotate(-3deg);
+            box-shadow: 0 0 60px rgba(0, 136, 204, 0.5), 0 0 100px rgba(251, 191, 36, 0.25);
+        }
+
+        .pfp-circle img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .pfp-label {
+            color: #a0aec0;
+            font-size: 12px;
+            margin-top: 6px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            opacity: 0.6;
+        }
+
+        .pfp-label i {
+            color: #fbbf24;
+            margin-right: 4px;
+        }
+
+        h1 {
+            color: #ffffff;
+            font-size: 34px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            margin-bottom: 6px;
+        }
+
+        .highlight {
+            color: #fbbf24;
+            text-shadow: 0 0 20px rgba(251, 191, 36, 0.3);
+        }
+
+        .subtitle {
+            color: #a0aec0;
+            font-size: 16px;
+            margin-bottom: 20px;
+            font-weight: 300;
+            letter-spacing: 0.5px;
+            border-bottom: 1px dashed rgba(255, 215, 0, 0.2);
+            padding-bottom: 18px;
+        }
+
+        .subtitle i {
+            color: #fbbf24;
+            margin: 0 4px;
+        }
+
+        .section-label {
+            color: #fbbf24;
+            font-size: 14px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin: 22px 0 12px;
+            opacity: 0.8;
+        }
+
+        .section-label i {
+            margin-right: 8px;
+        }
+
+        .btn-group {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            margin: 10px 0 5px;
+        }
+
+        .btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 14px;
+            padding: 18px 20px;
+            border-radius: 60px;
+            font-size: 18px;
+            font-weight: 600;
+            text-decoration: none;
+            color: #fff;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            letter-spacing: 0.5px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn i {
+            font-size: 26px;
+            width: 30px;
+        }
+
+        .btn-telegram {
+            background: linear-gradient(135deg, #0088cc, #005f8a);
+            box-shadow: 0 8px 25px rgba(0, 136, 204, 0.35);
+        }
+        .btn-telegram:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 12px 35px rgba(0, 136, 204, 0.55);
+            background: linear-gradient(135deg, #0099dd, #006699);
+        }
+
+        .btn-whatsapp {
+            background: linear-gradient(135deg, #25d366, #128c7e);
+            box-shadow: 0 8px 25px rgba(37, 211, 102, 0.35);
+        }
+        .btn-whatsapp:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 12px 35px rgba(37, 211, 102, 0.55);
+            background: linear-gradient(135deg, #30e07a, #1a9e8a);
+        }
+
+        .btn-personal {
+            background: linear-gradient(135deg, #fbbf24, #f59e0b);
+            color: #0b0e1a;
+            box-shadow: 0 8px 25px rgba(251, 191, 36, 0.35);
+            font-size: 19px;
+        }
+        .btn-personal:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 12px 35px rgba(251, 191, 36, 0.55);
+            background: linear-gradient(135deg, #fcd34d, #f59e0b);
+        }
+        .btn-personal i {
+            color: #0b0e1a;
+        }
+
+        .btn::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.15) 0%, transparent 70%);
+            opacity: 0;
+            transition: opacity 0.4s;
+        }
+        .btn:hover::after {
+            opacity: 1;
+        }
+
+        .btn:active {
+            transform: scale(0.96);
+        }
+
+        .badge {
+            display: inline-block;
+            background: rgba(251, 191, 36, 0.12);
+            color: #fbbf24;
+            padding: 8px 22px;
+            border-radius: 40px;
+            font-size: 13px;
+            font-weight: 500;
+            margin-top: 18px;
+            border: 1px solid rgba(251, 191, 36, 0.2);
+            backdrop-filter: blur(5px);
+            letter-spacing: 0.3px;
+            transition: all 0.3s ease;
+        }
+
+        .badge:hover {
+            background: rgba(251, 191, 36, 0.2);
+            transform: scale(1.03);
+        }
+
+        .badge i {
+            margin-right: 8px;
+        }
+
+        .divider {
+            border: none;
+            height: 1px;
+            background: linear-gradient(to right, transparent, rgba(251, 191, 36, 0.2), transparent);
+            margin: 18px 0;
+        }
+
+        .footer-text {
+            color: #4a5568;
+            font-size: 13px;
+            margin-top: 18px;
+            border-top: 1px solid rgba(255,255,255,0.04);
+            padding-top: 18px;
+            letter-spacing: 0.3px;
+        }
+
+        .footer-text i {
+            color: #fbbf24;
+            margin: 0 4px;
+        }
+
+        .instruction-box {
+            background: rgba(251, 191, 36, 0.06);
+            border: 1px solid rgba(251, 191, 36, 0.12);
+            border-radius: 16px;
+            padding: 14px 16px;
+            margin-top: 16px;
+            color: #cbd5e1;
+            font-size: 13px;
+            line-height: 1.8;
+            text-align: left;
+            transition: all 0.3s ease;
+        }
+
+        .instruction-box:hover {
+            background: rgba(251, 191, 36, 0.09);
+            border-color: rgba(251, 191, 36, 0.2);
+        }
+
+        .instruction-box i {
+            color: #fbbf24;
+            margin-right: 6px;
+        }
+
+        .instruction-box strong {
+            color: #fbbf24;
+        }
+
+        @keyframes pulseGlow {
+            0%, 100% { text-shadow: 0 0 10px rgba(251, 191, 36, 0.2); }
+            50% { text-shadow: 0 0 30px rgba(251, 191, 36, 0.5); }
+        }
+        .glow-text {
+            animation: pulseGlow 3s infinite ease-in-out;
+        }
+
+        @media (max-width: 480px) {
+            .card {
+                padding: 30px 18px;
+                border-radius: 30px;
+            }
+            h1 {
+                font-size: 26px;
+            }
+            .btn {
+                font-size: 16px;
+                padding: 15px 14px;
+            }
+            .btn i {
+                font-size: 22px;
+                width: 26px;
+            }
+            .pfp-circle {
+                width: 90px;
+                height: 90px;
+            }
+            .instruction-box {
+                font-size: 12px;
+                padding: 12px 14px;
+            }
+            .section-label {
+                font-size: 12px;
+            }
+        }
+
+        @media (max-width: 380px) {
+            .card {
+                padding: 22px 14px;
+            }
+            h1 {
+                font-size: 22px;
+            }
+            .btn {
+                font-size: 14px;
+                padding: 13px 12px;
+                gap: 10px;
+            }
+            .btn i {
+                font-size: 18px;
+                width: 22px;
+            }
+            .pfp-circle {
+                width: 75px;
+                height: 75px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="card">
+
+        <!-- PFP Image -->
+        <div class="pfp-container">
+            <div class="pfp-circle">
+                <a href="https://ibb.co/j9RyWkBF" target="_blank" aria-label="Channel Profile Picture">
+                    <img src="https://i.ibb.co/WNtkPvq1/IMG-20260728-101538-559.jpg" alt="Bipro Jimmy shots 📈🏆 Channel" loading="lazy" />
+                </a>
+            </div>
+        </div>
+        <div class="pfp-label">
+            <i class="fas fa-telegram-plane"></i> Official Channel
+        </div>
+
+        <!-- Heading -->
+        <h1>
+            <span class="highlight glow-text">Bipro Jimmy shots 📈🏆</span> 
+        </h1>
+        <div class="subtitle">
+            <i class="fas fa-bolt"></i> Accurate Predictions &bull; 24/7 Support <i class="fas fa-bolt"></i>
+        </div>
+
+        <!-- CHANNEL -->
+        <div class="section-label">
+            <i class="fas fa-users"></i> Community Channel
+        </div>
+        <div class="btn-group">
+            <a href="https://t.me/+S2Gepdu7uHs2Mzg9" target="_blank" rel="noopener" class="btn btn-telegram">
+                <i class="fab fa-telegram-plane"></i> Join Telegram Channel
+            </a>
+        </div>
+
+        <!-- PERSONAL PREDICTIONS -->
+        <div class="section-label" style="margin-top: 22px;">
+            <i class="fas fa-star"></i> Personal Consultancy
+        </div>
+        <div class="btn-group">
+
+            <!-- ===== TELEGRAM DM - EXACT MESSAGE ===== -->
+            <a href="https://t.me/Biproo_shots?text=HELLO%20BIPROO%20SIR%20MUJHE%20BHI%20LOSS%20RECOVER%20KARNA%20HAI%20....AAP%20LINK%20BHEJIYE%20MAI%20300K%20DEPOSIT%20KE%20LIYE%20READY%20HU%20%F0%9F%99%8F" target="_blank" rel="noopener" class="btn btn-personal">
+                <i class="fab fa-telegram-plane"></i> @Biproo_shots (DM)
+            </a>
+
+            <!-- ===== WHATSAPP DM - EXACT MESSAGE ===== -->
+            <a href="https://wa.me/12468213522?text=HELLO%20BIPROO%20SIR%20MUJHE%20BHI%20LOSS%20RECOVER%20KARNA%20HAI%20....AAP%20LINK%20BHEJIYE%20MAI%20300K%20DEPOSIT%20KE%20LIYE%20READY%20HU%20%F0%9F%99%8F" target="_blank" rel="noopener" class="btn btn-whatsapp">
+                <i class="fab fa-whatsapp"></i> WhatsApp (DM)
+            </a>
+
+        </div>
+
+        <!-- Instruction Box -->
+        <div class="instruction-box">
+            <i class="fas fa-info-circle"></i> <strong>How to Connect:</strong><br />
+            <i class="fas fa-chevron-right" style="font-size:10px;"></i> Join the channel for updates &amp; predictions<br />
+            <i class="fas fa-chevron-right" style="font-size:10px;"></i> DM on <strong>Telegram</strong> or <strong>WhatsApp</strong> for personal consultation<br />
+            <i class="fas fa-chevron-right" style="font-size:10px;"></i> Share your query &amp; get accurate predictions instantly
+        </div>
+
+        <hr class="divider" />
+
+        <!-- Trust Badge -->
+        <div class="badge">
+            <i class="fas fa-shield-alt"></i> 500+ Trusted Predictions
+        </div>
+
+        <!-- Footer -->
+        <div class="footer-text">
+            <i class="fas fa-star"></i> Trust &bull; Accuracy &bull; Speed <i class="fas fa-star"></i>
+        </div>
+
+    </div>
+
+</body>
+  </html>
