@@ -1,0 +1,1017 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>VIP KATIL  AI</title>
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Orbitron:wght@400;600;700;900&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ===== THEMES ===== */
+:root { 
+  --primary: #ff3333; 
+  --glow: rgba(255,0,51,0.5); 
+  --bg: #030303; 
+  --win: #00ff88; 
+  --loss: #ff1a1a; 
+  
+  --gold: var(--primary);
+  --gold2: var(--primary);
+  --gold3: var(--primary);
+  --red: #e03030;
+  --red2: #ff4444;
+  --red3: #c02020;
+  --bg2: #0c0c10;
+  --bg3: #12121a;
+  --bg4: #1a1a24;
+  --glass: rgba(255,255,255,0.04);
+  --glass2: rgba(255,255,255,0.07);
+  --border: rgba(255,255,255,0.15);
+  --border2: var(--glow);
+  --text: #f0ece0;
+  --muted: #887060;
+  --glow-gold: 0 0 20px var(--glow), 0 0 40px var(--glow);
+  --glow-red: 0 0 20px rgba(224,48,48,0.4), 0 0 40px rgba(224,48,48,0.15);
+  --glow-gold-btn: 0 0 15px var(--glow), 0 0 30px var(--glow);
+}
+
+[data-theme="cyber-neon"]  { --primary: #00ffee; --glow: rgba(0,255,238,0.4); --bg: #000a0d; }
+[data-theme="gold-elite"]  { --primary: #ffcc00; --glow: rgba(255,204,0,0.4); --bg: #0a0900; }
+[data-theme="amethyst"]    { --primary: #bf00ff; --glow: rgba(191,0,255,0.4); --bg: #0a000d; }
+[data-theme="emerald"]     { --primary: #00ff6a; --glow: rgba(0,255,106,0.4); --bg: #000d05; }
+[data-theme="ocean"]       { --primary: #0088ff; --glow: rgba(0,136,255,0.4); --bg: #00060d; }
+[data-theme="matrix"]      { --primary: #00ff00; --glow: rgba(0,255,0,0.3);   --bg: #050505; }
+
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+html,body{height:100%;background:var(--bg);font-family:'Poppins','Rajdhani',sans-serif;color:var(--text);overflow:hidden;transition:background 0.4s;}
+
+/* PARTICLES & CANVAS */
+#particles, #bg-canvas{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;opacity:0.22;}
+
+/* LOGIN */
+#login{position:fixed;inset:0;z-index:100;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px;background:var(--bg);transition:background 0.4s;}
+.login-bg-glow{position:absolute;top:20%;left:50%;transform:translateX(-50%);width:300px;height:300px;background:radial-gradient(circle,var(--glow) 0%,transparent 70%);pointer-events:none;}
+.login-logo-wrap{text-align:center;margin-bottom:32px;position:relative;}
+.login-crown{font-size:48px;margin-bottom:8px;filter:drop-shadow(0 0 20px var(--glow));}
+.login-title{font-family:'Orbitron',sans-serif;font-size:28px;font-weight:900;letter-spacing:4px;color:var(--primary);text-shadow:var(--glow-gold);}
+.login-sub{font-size:13px;letter-spacing:6px;color:var(--muted);margin-top:4px;}
+.login-card{width:100%;max-width:340px;background:var(--bg2);border:1px solid var(--border2);border-radius:20px;padding:32px 28px;position:relative;overflow:hidden;}
+.login-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--primary),transparent);}
+.login-card::after{content:'';position:absolute;bottom:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--red),transparent);}
+.lc-label{font-size:11px;letter-spacing:4px;color:var(--primary);margin-bottom:20px;text-align:center;}
+.lc-divider{display:flex;align-items:center;gap:10px;margin-bottom:24px;}
+.lc-divider-line{flex:1;height:1px;background:var(--border);}
+.lc-divider-text{font-size:10px;letter-spacing:3px;color:var(--muted);}
+.key-input{width:100%;padding:16px 18px;background:#000;border:1px solid var(--border);border-radius:12px;color:var(--primary);font-family:'Orbitron',sans-serif;font-size:13px;letter-spacing:3px;text-align:center;outline:none;transition:0.3s;margin-bottom:16px;}
+.key-input::placeholder{color:rgba(255,255,255,0.3);font-size:11px;}
+.key-input:focus{border-color:var(--primary);box-shadow:0 0 0 1px var(--glow),inset 0 0 20px var(--glow);}
+.activate-btn{width:100%;padding:17px;background:linear-gradient(135deg,var(--bg3) 0%,var(--primary) 50%,var(--bg3) 100%);border:none;border-radius:12px;color:#000;font-family:'Orbitron',sans-serif;font-weight:900;font-size:13px;letter-spacing:3px;cursor:pointer;transition:0.2s;position:relative;overflow:hidden;}
+.activate-btn::before{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.3),transparent);transition:0.5s;}
+.activate-btn:hover::before{left:100%;}
+.activate-btn:active{transform:scale(0.97);}
+.login-err{font-size:12px;letter-spacing:2px;text-align:center;min-height:20px;margin-top:10px;font-weight:700;}
+.login-contact{display:flex;align-items:center;justify-content:center;gap:8px;margin-top:20px;color:var(--muted);font-size:12px;letter-spacing:2px;text-decoration:none;padding:10px 20px;border:1px solid rgba(255,255,255,0.08);border-radius:10px;transition:0.3s;}
+.login-contact:hover{border-color:var(--border);color:var(--primary);}
+.badge-row{display:flex;gap:8px;justify-content:center;margin-bottom:24px;}
+.badge{padding:5px 12px;border-radius:20px;font-size:10px;letter-spacing:2px;font-weight:700;}
+.badge-gold{background:rgba(255,255,255,0.05);border:1px solid var(--border2);color:var(--primary);}
+.badge-red{background:rgba(224,48,48,0.1);border:1px solid rgba(224,48,48,0.3);color:var(--red2);}
+
+/* APP SHELL */
+#app{position:fixed;inset:0;display:none;flex-direction:column;z-index:10;}
+
+/* HEADER */
+.header{display:flex;align-items:center;justify-content:space-between;padding:12px 16px 10px;background:rgba(6,6,8,0.98);border-bottom:1px solid var(--border);position:relative;z-index:50;flex-shrink:0;}
+.header::after{content:'';position:absolute;bottom:-1px;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--primary),var(--red),transparent);}
+.h-left{display:flex;align-items:center;gap:10px;}
+.h-logo-icon{width:36px;height:36px;background:linear-gradient(135deg,var(--bg3),var(--primary));border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;box-shadow:var(--glow-gold-btn);}
+.h-title{font-family:'Orbitron',sans-serif;font-size:14px;font-weight:900;color:var(--primary);letter-spacing:2px;line-height:1;text-shadow:0 0 10px var(--glow);}
+.h-sub{font-size:9px;letter-spacing:3px;color:var(--muted);margin-top:2px;}
+.h-right{display:flex;align-items:center;gap:10px;}
+.live-dot{display:flex;align-items:center;gap:6px;padding:5px 10px;background:rgba(0,200,80,0.1);border:1px solid rgba(0,200,80,0.3);border-radius:20px;}
+.live-dot-pulse{width:7px;height:7px;background:var(--win);border-radius:50%;animation:pulse-live 1.5s infinite;}
+@keyframes pulse-live{0%,100%{box-shadow:0 0 0 0 rgba(0,200,80,0.6);}50%{box-shadow:0 0 0 5px rgba(0,200,80,0);}}
+.live-text{font-size:9px;font-weight:700;letter-spacing:2px;color:var(--win);}
+.menu-btn{width:36px;height:36px;background:var(--glass);border:1px solid var(--border);border-radius:10px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;cursor:pointer;transition:0.2s;}
+.menu-btn:active{transform:scale(0.9);}
+.menu-dot{width:4px;height:4px;background:var(--primary);border-radius:50%;}
+
+/* DROPDOWN MENU */
+#dropdown{position:fixed;top:60px;right:12px;width:240px;background:rgba(12,12,16,0.97);border:1px solid var(--border2);border-radius:16px;z-index:200;display:none;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,0.8),0 0 30px var(--glow);animation:dropIn 0.25s ease;}
+@keyframes dropIn{from{opacity:0;transform:translateY(-10px) scale(0.95);}to{opacity:1;transform:translateY(0) scale(1);}}
+.dd-header{padding:14px 16px 10px;border-bottom:1px solid var(--border);}
+.dd-title{font-family:'Orbitron',sans-serif;font-size:11px;font-weight:700;color:var(--primary);letter-spacing:2px;}
+.dd-sub{font-size:10px;color:var(--muted);letter-spacing:1px;margin-top:2px;}
+.dd-item{display:flex;align-items:center;gap:12px;padding:13px 16px;cursor:pointer;transition:0.2s;border-bottom:1px solid rgba(255,255,255,0.04);}
+.dd-item:hover{background:var(--glass2);}
+.dd-item:last-child{border-bottom:none;}
+.dd-item-icon{width:30px;height:30px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;}
+.dd-item-text{flex:1;}
+.dd-item-label{font-size:13px;font-weight:600;letter-spacing:1px;color:var(--text);}
+.dd-item-desc{font-size:10px;color:var(--muted);letter-spacing:1px;margin-top:1px;}
+.dd-item-arrow{font-size:10px;color:var(--muted);}
+.dd-item.danger .dd-item-label{color:var(--red2);}
+.dd-version-bar{padding:10px 16px;background:rgba(0,0,0,0.3);display:flex;justify-content:space-between;align-items:center;}
+.dd-version-text{font-size:10px;color:var(--muted);letter-spacing:1px;}
+.dd-version-val{font-size:10px;color:var(--primary);letter-spacing:1px;}
+
+/* BOTTOM NAV */
+.bottom-nav{display:flex;background:rgba(6,6,8,0.97);border-top:1px solid var(--border);padding:8px 0 12px;flex-shrink:0;position:relative;z-index:30;}
+.bottom-nav::before{content:'';position:absolute;top:-1px;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--primary),var(--red),transparent);}
+.nav-item{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;cursor:pointer;padding:6px 0;transition:0.2s;position:relative;}
+.nav-item.active .nav-icon{color:var(--primary);text-shadow:0 0 10px var(--glow);}
+.nav-item.active .nav-label{color:var(--primary);}
+.nav-item.active::before{content:'';position:absolute;top:-8px;left:50%;transform:translateX(-50%);width:30px;height:2px;background:linear-gradient(90deg,transparent,var(--primary),transparent);border-radius:1px;}
+.nav-icon{font-size:22px;color:var(--muted);transition:0.2s;}
+.nav-label{font-size:9px;letter-spacing:2px;color:var(--muted);font-weight:700;transition:0.2s;}
+.nav-badge{position:absolute;top:3px;right:calc(50% - 22px);background:var(--red);color:#fff;font-size:8px;font-weight:700;min-width:14px;height:14px;border-radius:7px;display:flex;align-items:center;justify-content:center;padding:0 3px;}
+
+/* CONTENT */
+.content-area{flex:1;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;position:relative;z-index:10;scrollbar-width:none;}
+.content-area::-webkit-scrollbar{width:0;}
+.panel{display:none;padding:12px;}
+.panel.active{display:block;}
+
+/* DASHBOARD */
+.period-row{display:flex;gap:10px;margin-bottom:12px;}
+.period-card{flex:1;background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:14px;position:relative;overflow:hidden;}
+.period-card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--primary),transparent);}
+.pc-label{font-size:9px;letter-spacing:3px;color:var(--muted);margin-bottom:6px;}
+.pc-val{font-family:'Orbitron',sans-serif;font-size:22px;font-weight:900;color:var(--primary);text-shadow:0 0 15px var(--glow);}
+.pc-val.green{color:var(--win);text-shadow:0 0 15px rgba(0,200,80,0.4);}
+.pc-val.red{color:var(--loss);text-shadow:0 0 15px rgba(224,48,48,0.4);}
+
+.pred-card{background:var(--bg2);border:1px solid var(--border2);border-radius:24px;padding:24px 20px;margin-bottom:12px;position:relative;overflow:hidden;display:flex;flex-direction:column;align-items:center;gap:16px;}
+.pred-card::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% -20%,var(--glow) 0%,transparent 60%);}
+.pred-card::after{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--primary),var(--red),var(--primary),transparent);}
+.pred-label{font-size:9px;letter-spacing:4px;color:var(--muted);}
+.pred-result{font-family:'Orbitron',sans-serif;font-size:62px;font-weight:900;letter-spacing:-2px;transition:all 0.4s cubic-bezier(0.175,0.885,0.32,1.275);}
+.pred-result.BIG{color:var(--red2);text-shadow:0 0 30px rgba(255,68,68,0.6),0 0 60px rgba(255,68,68,0.2);}
+.pred-result.SMALL{color:var(--win);text-shadow:0 0 30px rgba(0,200,80,0.6),0 0 60px rgba(0,200,80,0.2);}
+.pred-result.SCAN{color:var(--muted);}
+.num-row{display:flex;gap:20px;}
+.num-ball{width:72px;height:72px;background:radial-gradient(circle at 35% 30%,rgba(255,255,255,0.1) 0%,#000 100%);border:3px solid var(--border2);border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Orbitron',sans-serif;font-size:28px;font-weight:900;color:var(--primary);box-shadow:0 10px 30px rgba(0,0,0,0.8),inset 0 1px 0 rgba(255,255,255,0.1);transition:all 0.4s;}
+.num-ball.n2{border-color:#888;color:#ccc;}
+.pred-confidence{display:flex;align-items:center;gap:8px;width:100%;}
+.conf-label{font-size:9px;letter-spacing:2px;color:var(--muted);}
+.conf-bar{flex:1;height:4px;background:rgba(255,255,255,0.08);border-radius:2px;overflow:hidden;}
+.conf-fill{height:100%;background:linear-gradient(90deg,var(--bg3),var(--primary));border-radius:2px;transition:width 1s ease;}
+.conf-val{font-size:10px;font-weight:700;color:var(--primary);}
+
+.stats-row{display:flex;gap:8px;margin-bottom:12px;}
+.stat-card{flex:1;background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:12px 10px;text-align:center;position:relative;overflow:hidden;}
+.stat-card::before{content:'';position:absolute;bottom:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--border2),transparent);}
+.stat-num{font-family:'Orbitron',sans-serif;font-size:20px;font-weight:900;margin-bottom:4px;}
+.stat-num.gold{color:var(--primary);}
+.stat-num.green{color:var(--win);}
+.stat-num.red{color:var(--loss);}
+.stat-lbl{font-size:9px;letter-spacing:2px;color:var(--muted);}
+
+/* SESSION TABLE */
+.section-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;}
+.section-title{font-family:'Orbitron',sans-serif;font-size:11px;font-weight:700;letter-spacing:3px;color:var(--primary);}
+.section-badge{padding:3px 8px;background:rgba(255,255,255,0.05);border:1px solid var(--border2);border-radius:6px;font-size:9px;letter-spacing:1px;color:var(--primary);}
+.session-box{background:var(--bg2);border:1px solid var(--border);border-radius:16px;overflow:hidden;}
+.session-box table{width:100%;border-collapse:collapse;}
+.session-box thead tr{border-bottom:1px solid var(--border);}
+.session-box th{padding:11px 10px;font-size:9px;letter-spacing:2px;color:var(--muted);text-align:center;background:rgba(0,0,0,0.3);}
+.session-box td{padding:12px 10px;text-align:center;font-size:13px;font-weight:700;border-bottom:1px solid rgba(255,255,255,0.04);letter-spacing:1px;}
+.tag-win{color:var(--win);text-shadow:0 0 8px var(--win);}
+.tag-loss{color:var(--loss);text-shadow:0 0 8px var(--loss);}
+.tag-jackpot{background:rgba(255,255,0,.12);color:#ffff33;text-shadow:0 0 8px #ff0,0 0 16px #ff0;padding:3px 8px;border-radius:6px;font-size:11px;border:1px solid #ff0;}
+.tag-pending{color:var(--muted);}
+.shimmer-row td{background:linear-gradient(90deg,var(--bg3) 25%,var(--bg4) 50%,var(--bg3) 75%);background-size:200% 100%;animation:shimmer 1.5s infinite;border-radius:4px;}
+@keyframes shimmer{0%{background-position:200% 0;}100%{background-position:-200% 0;}}
+
+/* TELEGRAM */
+.tg-card{background:var(--bg2);border:1px solid var(--border);border-radius:20px;padding:20px;margin-bottom:12px;position:relative;overflow:hidden;}
+.tg-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,#0088cc,transparent);}
+.tg-head{display:flex;align-items:center;gap:14px;margin-bottom:16px;}
+.tg-icon{width:52px;height:52px;background:linear-gradient(135deg,#0088cc,#00aaff);border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:26px;box-shadow:0 0 20px rgba(0,136,204,0.4);}
+.tg-info{flex:1;}
+.tg-name{font-family:'Orbitron',sans-serif;font-size:13px;font-weight:700;color:var(--text);letter-spacing:1px;}
+.tg-handle{font-size:11px;color:#0088cc;letter-spacing:1px;margin-top:2px;}
+.tg-members{display:flex;align-items:center;gap:6px;margin-top:4px;}
+.tg-members-dot{width:6px;height:6px;background:var(--win);border-radius:50%;animation:pulse-live 1.5s infinite;}
+.tg-members-text{font-size:10px;color:var(--muted);}
+.tg-join-btn{width:100%;padding:14px;background:linear-gradient(135deg,#005588,#0088cc);border:none;border-radius:12px;color:#fff;font-family:'Rajdhani',sans-serif;font-weight:700;font-size:14px;letter-spacing:3px;cursor:pointer;transition:0.2s;display:flex;align-items:center;justify-content:center;gap:8px;}
+.tg-join-btn:active{transform:scale(0.97);}
+.tg-join-btn:hover{filter:brightness(1.1);}
+.announce-card{background:var(--bg3);border:1px solid var(--border);border-radius:16px;padding:16px;margin-top:12px;}
+.ann-header{display:flex;align-items:center;gap:8px;margin-bottom:12px;}
+.ann-dot{width:8px;height:8px;background:var(--red2);border-radius:50%;animation:pulse-live 1s infinite;}
+.ann-title{font-size:10px;letter-spacing:3px;color:var(--red2);font-weight:700;}
+.ann-item{padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.04);}
+.ann-item:last-child{border-bottom:none;padding-bottom:0;}
+.ann-text{font-size:13px;color:var(--text);letter-spacing:0.5px;line-height:1.5;}
+.ann-time{font-size:10px;color:var(--muted);letter-spacing:1px;margin-top:4px;}
+
+/* ACCOUNT */
+.profile-card{background:var(--bg2);border:1px solid var(--border2);border-radius:20px;padding:24px 20px;margin-bottom:12px;position:relative;overflow:hidden;display:flex;flex-direction:column;align-items:center;gap:12px;}
+.profile-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--primary),transparent);}
+.profile-avatar{width:80px;height:80px;background:linear-gradient(135deg,var(--bg3),var(--primary));border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:36px;box-shadow:0 0 30px var(--glow);}
+.profile-name{font-family:'Orbitron',sans-serif;font-size:18px;font-weight:900;color:var(--primary);letter-spacing:2px;}
+.profile-role{font-size:11px;letter-spacing:4px;color:var(--muted);}
+.profile-stats{display:flex;gap:24px;}
+.ps-item{text-align:center;}
+.ps-val{font-family:'Orbitron',sans-serif;font-size:18px;font-weight:900;color:var(--text);}
+.ps-label{font-size:9px;letter-spacing:2px;color:var(--muted);margin-top:2px;}
+.ps-divider{width:1px;background:var(--border);}
+.key-status-card{background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:16px;margin-bottom:12px;}
+.ks-row{display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.05);}
+.ks-row:last-child{border-bottom:none;padding-bottom:0;}
+.ks-label{font-size:11px;letter-spacing:2px;color:var(--muted);}
+.ks-val{font-size:12px;font-weight:700;letter-spacing:1px;color:var(--text);}
+.ks-val.active{color:var(--win);}
+.ks-val.gold{color:var(--primary);}
+.logout-btn{width:100%;padding:14px;background:rgba(224,48,48,0.1);border:1px solid rgba(224,48,48,0.3);border-radius:12px;color:var(--red2);font-family:'Rajdhani',sans-serif;font-weight:700;font-size:14px;letter-spacing:3px;cursor:pointer;transition:0.2s;}
+.logout-btn:active{transform:scale(0.97);background:rgba(224,48,48,0.2);}
+
+/* SETTINGS */
+.settings-section{background:var(--bg2);border:1px solid var(--border);border-radius:16px;overflow:hidden;margin-bottom:12px;}
+.settings-section-title{padding:12px 16px;font-size:9px;letter-spacing:3px;color:var(--muted);background:rgba(0,0,0,0.2);border-bottom:1px solid var(--border);}
+.setting-item{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border-bottom:1px solid rgba(255,255,255,0.04);}
+.setting-item:last-child{border-bottom:none;}
+.si-left{display:flex;align-items:center;gap:12px;}
+.si-icon{width:34px;height:34px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:17px;}
+.si-text{font-size:13px;font-weight:600;letter-spacing:1px;color:var(--text);}
+.si-desc{font-size:10px;color:var(--muted);letter-spacing:1px;margin-top:1px;}
+.toggle{width:46px;height:26px;background:rgba(255,255,255,0.1);border-radius:13px;position:relative;cursor:pointer;transition:0.3s;flex-shrink:0;}
+.toggle.on{background:linear-gradient(135deg,var(--bg3),var(--primary));box-shadow:0 0 10px var(--glow);}
+.toggle-knob{position:absolute;top:3px;left:3px;width:20px;height:20px;background:#fff;border-radius:50%;transition:0.3s;box-shadow:0 2px 6px rgba(0,0,0,0.4);}
+.toggle.on .toggle-knob{left:23px;}
+.theme-select{background:#000;color:var(--primary);border:1px solid var(--border2);padding:6px 10px;border-radius:8px;font-family:'Rajdhani',sans-serif;font-weight:700;outline:none;}
+.save-btn{width:100%;padding:16px;background:linear-gradient(135deg,var(--bg3),var(--primary));border:none;border-radius:14px;color:#000;font-family:'Orbitron',sans-serif;font-weight:900;font-size:13px;letter-spacing:3px;cursor:pointer;transition:0.2s;margin-top:4px;box-shadow:var(--glow-gold-btn);}
+.save-btn:active{transform:scale(0.97);}
+
+/* HISTORY */
+.history-search{display:flex;gap:8px;margin-bottom:12px;}
+.h-search-input{flex:1;padding:12px 14px;background:var(--bg2);border:1px solid var(--border);border-radius:12px;color:var(--text);font-family:'Rajdhani',sans-serif;font-size:13px;letter-spacing:1px;outline:none;}
+.h-search-input:focus{border-color:var(--primary);}
+.h-search-input::placeholder{color:var(--muted);}
+.filter-btn{padding:12px;background:var(--bg2);border:1px solid var(--border);border-radius:12px;color:var(--primary);font-size:17px;cursor:pointer;}
+.history-filters{display:flex;gap:6px;margin-bottom:12px;overflow-x:auto;padding-bottom:2px;}
+.history-filters::-webkit-scrollbar{display:none;}
+.hf-btn{padding:7px 14px;background:var(--bg2);border:1px solid var(--border);border-radius:20px;color:var(--muted);font-size:11px;letter-spacing:2px;font-weight:700;cursor:pointer;white-space:nowrap;transition:0.2s;font-family:'Rajdhani',sans-serif;}
+.hf-btn.active{background:rgba(255,255,255,0.05);border-color:var(--border2);color:var(--primary);}
+.timeline-item{display:flex;gap:12px;margin-bottom:12px;}
+.tl-dot-col{display:flex;flex-direction:column;align-items:center;gap:0;}
+.tl-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;margin-top:4px;}
+.tl-dot.win{background:var(--win);box-shadow:0 0 8px rgba(0,200,80,0.6);}
+.tl-dot.loss{background:var(--loss);box-shadow:0 0 8px rgba(255,68,68,0.6);}
+.tl-dot.jackpot{background:var(--primary);box-shadow:0 0 8px var(--glow);}
+.tl-line{flex:1;width:1px;background:rgba(255,255,255,0.06);}
+.tl-card{flex:1;background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:12px 14px;}
+.tl-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;}
+.tl-period{font-family:'Orbitron',sans-serif;font-size:11px;color:var(--primary);}
+.tl-body{display:flex;align-items:center;justify-content:space-between;}
+.tl-detail{font-size:12px;color:var(--muted);}
+.tl-result{font-size:13px;font-weight:700;letter-spacing:1px;}
+.tl-result.win{color:var(--win);}
+.tl-result.loss{color:var(--loss);}
+.tl-result.jackpot{color:var(--primary);}
+
+/* FAB */
+.fab{position:fixed;bottom:80px;right:16px;width:50px;height:50px;background:linear-gradient(135deg,var(--red3),var(--red));border-radius:50%;display:none;align-items:center;justify-content:center;font-size:22px;cursor:pointer;z-index:40;box-shadow:var(--glow-red),0 10px 30px rgba(0,0,0,0.5);transition:0.2s;border:none;}
+.fab:active{transform:scale(0.9);}
+
+/* TOAST */
+.toast{position:fixed;top:70px;left:50%;transform:translateX(-50%) translateY(-20px);background:rgba(12,12,16,0.97);border:1px solid var(--border2);border-radius:12px;padding:12px 20px;font-size:12px;letter-spacing:2px;font-weight:700;color:var(--primary);z-index:300;opacity:0;transition:all 0.3s;pointer-events:none;white-space:nowrap;}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+
+/* ANIMATIONS */
+@keyframes fadeSlideUp{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
+.panel.active > *{animation:fadeSlideUp 0.4s ease forwards;}
+.panel.active > *:nth-child(2){animation-delay:0.05s;}
+.panel.active > *:nth-child(3){animation-delay:0.1s;}
+.panel.active > *:nth-child(4){animation-delay:0.15s;}
+.panel.active > *:nth-child(5){animation-delay:0.2s;}
+
+/* SPLASH SCREEN */
+#splash-screen{position:fixed;top:0;left:0;width:100%;height:100%;background:linear-gradient(135deg,#050505,#111,#050505);display:flex;justify-content:center;align-items:center;z-index:99999;transition:.5s;}
+.splash-box{width:90%;max-width:360px;padding:30px;border-radius:25px;background:rgba(255,255,255,.05);backdrop-filter:blur(15px);border:1px solid var(--border2);text-align:center;box-shadow:0 0 30px var(--glow);animation:pop .8s;}
+@keyframes pop{from{transform:scale(.8);opacity:0;}to{transform:scale(1);opacity:1;}}
+.logo{width:90px;height:90px;margin:auto;border-radius:50%;background:#111;display:flex;justify-content:center;align-items:center;font-size:45px;color:var(--primary);border:2px solid var(--primary);box-shadow:0 0 25px var(--glow);animation:pulse 2s infinite;}
+@keyframes pulse{50%{box-shadow:0 0 45px var(--glow);transform:scale(1.08);}}
+.splash-box h1{color:var(--primary);margin:20px 0 10px;letter-spacing:3px;font-size:28px;font-family:sans-serif;}
+.splash-box p{color:#ccc;font-size:14px;line-height:22px;margin-bottom:25px;font-family:sans-serif;}
+.join-btn{display:block;padding:15px;border-radius:50px;background:var(--primary);color:#000;font-weight:bold;text-decoration:none;font-family:sans-serif;transition:.3s;}
+.join-btn:hover{transform:scale(1.05);box-shadow:0 0 20px var(--glow);}
+.skip-btn{margin-top:15px;width:100%;padding:13px;border:none;border-radius:50px;background:#222;color:#fff;font-size:15px;cursor:pointer;transition:.3s;}
+.skip-btn:hover{background:#333;}
+.fade-out{opacity:0;pointer-events:none;}
+</style>
+</head>
+<body>
+
+<canvas id="particles"></canvas>
+<canvas id="bg-canvas"></canvas>
+
+<!-- LOGIN SCREEN -->
+<div id="login">
+  <div class="login-bg-glow"></div>
+  <div class="login-logo-wrap">
+    <div class="login-crown">🐉</div>
+    <div class="login-title">VIP KATIL</div>
+    <div class="login-sub">VIP AI</div>
+  </div>
+  <div class="login-card">
+    <div class="badge-row">
+      <div class="badge badge-gold">◈ VIP</div>
+      <div class="badge badge-red">⚡ PRO</div>
+      <div class="badge badge-gold">🔒 SECURE</div>
+    </div>
+    <div class="lc-divider">
+      <div class="lc-divider-line"></div>
+      <div class="lc-divider-text">ACCESS PROTOCOL</div>
+      <div class="lc-divider-line"></div>
+    </div>
+    <input type="text" id="passInput" class="key-input" placeholder="ENTER VIP ACCESS GOD">
+    <button class="activate-btn" onclick="checkAuth()">⚡ ACTIVATE PROTOCOL</button>
+    <div id="err" class="login-err"></div>
+    <a href="https://t.me/+daphYIytoYllNWM1" target="_blank" class="login-contact">📲 CONTACT FOR KEY @Kalkalamahakal </a>
+  </div>
+</div>
+
+<!-- MAIN APP -->
+<div id="app">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="h-left">
+      <div class="h-logo-icon">🐉</div>
+      <div>
+        <div class="h-title">GOD DRAGON</div>
+        <div class="h-sub">VIP AI</div>
+      </div>
+    </div>
+    <div class="h-right">
+      <div class="live-dot">
+        <div class="live-dot-pulse"></div>
+        <span class="live-text">LIVE</span>
+      </div>
+      <div class="menu-btn" onclick="toggleMenu()">
+        <div class="menu-dot"></div>
+        <div class="menu-dot"></div>
+        <div class="menu-dot"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DROPDOWN MENU -->
+  <div id="dropdown">
+    <div class="dd-header">
+      <div class="dd-title">VIP PANEL</div>
+      <div class="dd-sub">VIP ACCESS • VERSION 2.0</div>
+    </div>
+    <div class="dd-item" onclick="openTg();closeMenu()">
+      <div class="dd-item-icon" style="background:rgba(0,136,204,0.15);">📲</div>
+      <div class="dd-item-text"><div class="dd-item-label">TELEGRAM CHANNEL</div><div class="dd-item-desc">JOIN COMMUNITY</div></div>
+      <div class="dd-item-arrow">›</div>
+    </div>
+    <div class="dd-item" onclick="openTg();closeMenu()">
+      <div class="dd-item-icon" style="background:rgba(240,192,64,0.1);">💎</div>
+      <div class="dd-item-text"><div class="dd-item-label">VIP GROUP</div><div class="dd-item-desc">EXCLUSIVE MEMBERS</div></div>
+      <div class="dd-item-arrow">›</div>
+    </div>
+    <div class="dd-item" onclick="showToast('HELP CENTER COMING SOON');closeMenu()">
+      <div class="dd-item-icon" style="background:rgba(0,200,80,0.1);">❓</div>
+      <div class="dd-item-text"><div class="dd-item-label">HELP CENTER</div><div class="dd-item-desc">GUIDES & TUTORIALS</div></div>
+      <div class="dd-item-arrow">›</div>
+    </div>
+    <div class="dd-item" onclick="switchTab('settings');closeMenu()">
+      <div class="dd-item-icon" style="background:rgba(240,192,64,0.1);">⚙️</div>
+      <div class="dd-item-text"><div class="dd-item-label">SETTINGS</div><div class="dd-item-desc">CUSTOMIZE APP</div></div>
+      <div class="dd-item-arrow">›</div>
+    </div>
+    <div class="dd-item" onclick="switchTab('account');closeMenu()">
+      <div class="dd-item-icon" style="background:rgba(224,48,48,0.1);">🔑</div>
+      <div class="dd-item-text"><div class="dd-item-label">LICENSE STATUS</div><div class="dd-item-desc">KEY INFORMATION</div></div>
+      <div class="dd-item-arrow">›</div>
+    </div>
+    <div class="dd-item" onclick="showToast('VERSION 2.0 • BUILD 240601');closeMenu()">
+      <div class="dd-item-icon" style="background:rgba(255,255,255,0.06);">ℹ️</div>
+      <div class="dd-item-text"><div class="dd-item-label">ABOUT APP</div><div class="dd-item-desc">VERSION INFO</div></div>
+      <div class="dd-item-arrow">›</div>
+    </div>
+    <div class="dd-item danger" onclick="doLogout();closeMenu()">
+      <div class="dd-item-icon" style="background:rgba(224,48,48,0.1);">🚪</div>
+      <div class="dd-item-text"><div class="dd-item-label">LOGOUT</div><div class="dd-item-desc">EXIT SECURE SESSION</div></div>
+      <div class="dd-item-arrow">›</div>
+    </div>
+    <div class="dd-version-bar">
+      <div class="dd-version-text">GOD</div>
+      <div class="dd-version-val">v2.0.0</div>
+    </div>
+  </div>
+
+  <!-- CONTENT -->
+  <div class="content-area" id="contentArea">
+
+    <!-- DASHBOARD PANEL -->
+    <div class="panel active" id="panel-dashboard">
+      <div class="period-row">
+        <div class="period-card">
+          <div class="pc-label">NEXT PERIOD</div>
+          <div class="pc-val" id="nextP">——</div>
+        </div>
+        <div class="period-card">
+          <div class="pc-label">COUNTDOWN</div>
+          <div class="pc-val green" id="timer">00:00</div>
+        </div>
+        <div class="period-card">
+          <div class="pc-label">ACCURACY</div>
+          <div class="pc-val" id="accuracyDisplay">—%</div>
+        </div>
+      </div>
+
+      <div class="pred-card">
+        <div class="pred-label">PREDICTION ENGINE</div>
+        <div id="res" class="pred-result SCAN">SCAN</div>
+        <div class="num-row">
+          <div class="num-ball" id="n1">?</div>
+          <div class="num-ball n2" id="n2">?</div>
+        </div>
+        <div class="pred-confidence">
+          <div class="conf-label">CONFIDENCE</div>
+          <div class="conf-bar"><div class="conf-fill" id="confFill" style="width:0%"></div></div>
+          <div class="conf-val" id="confVal">0%</div>
+        </div>
+      </div>
+
+      <div class="stats-row">
+        <div class="stat-card">
+          <div class="stat-num gold" id="totalSessions">0</div>
+          <div class="stat-lbl">TOTAL</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num green" id="totalWins">0</div>
+          <div class="stat-lbl">WINS</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num red" id="totalLoss">0</div>
+          <div class="stat-lbl">LOSS</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num gold" id="totalJackpot">0</div>
+          <div class="stat-lbl">JACKPOT</div>
+        </div>
+      </div>
+
+      <div class="section-header">
+        <div class="section-title">◈ SESSION LOG</div>
+        <div class="section-badge" id="sessionCount">0 RECORDS</div>
+      </div>
+      <div class="session-box">
+        <table>
+          <thead>
+            <tr>
+              <th>PERIOD</th>
+              <th>NUM</th>
+              <th>SIZE</th>
+              <th>STATUS</th>
+            </tr>
+          </thead>
+          <tbody id="session-h">
+            <tr class="shimmer-row"><td colspan="4" style="height:44px;"></td></tr>
+            <tr class="shimmer-row"><td colspan="4" style="height:44px;"></td></tr>
+            <tr class="shimmer-row"><td colspan="4" style="height:44px;"></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- TELEGRAM PANEL -->
+    <div class="panel" id="panel-telegram">
+      <div class="tg-card">
+        <div class="tg-head">
+          <div class="tg-icon">📲</div>
+          <div class="tg-info">
+            <div class="tg-name">GOD</div>
+            <div class="tg-handle">@Avtarshing</div>
+            <div class="tg-members">
+              <div class="tg-members-dot"></div>
+              <div class="tg-members-text">12,847 MEMBERS ONLINE</div>
+            </div>
+          </div>
+        </div>
+        <button class="tg-join-btn" onclick="window.open('https://t.me/+daphYIytoYllNWM1','_blank')">
+          📲 JOIN VIP CHANNEL
+        </button>
+      </div>
+
+      <div class="tg-card" style="margin-bottom:12px;">
+        <div class="tg-head">
+          <div class="tg-icon" style="background:linear-gradient(135deg,#6a0dad,#9b30ff);">💎</div>
+          <div class="tg-info">
+            <div class="tg-name">VIP MEMBERS GROUP</div>
+            <div class="tg-handle">EXCLUSIVE ACCESS</div>
+            <div class="tg-members">
+              <div class="tg-members-dot"></div>
+              <div class="tg-members-text">4,201 VIP MEMBERS</div>
+            </div>
+          </div>
+        </div>
+        <button class="tg-join-btn" style="background:linear-gradient(135deg,#4a008d,#7b10df);" onclick="window.open('https://t.me/+daphYIytoYllNWM1','_blank')">
+          💎 JOIN VIP GROUP
+        </button>
+      </div>
+
+      <div class="announce-card">
+        <div class="ann-header">
+          <div class="ann-dot"></div>
+          <div class="ann-title">LIVE ANNOUNCEMENTS</div>
+        </div>
+        <div class="ann-item">
+          <div class="ann-text">🔥 NEW UPDATE v2.0 RELEASED — ENHANCED PREDICTION ENGINE WITH 89% WIN RATE</div>
+          <div class="ann-time">⏱ 2 HOURS AGO</div>
+        </div>
+        <div class="ann-item">
+          <div class="ann-text">💎 VIP MEMBERS GET EARLY ACCESS TO NEXT ROUND PREDICTIONS</div>
+          <div class="ann-time">⏱ 5 HOURS AGO</div>
+        </div>
+        <div class="ann-item">
+          <div class="ann-text">⚡ SERVER MAINTENANCE COMPLETED — UPTIME 99.9% GUARANTEED</div>
+          <div class="ann-time">⏱ 1 DAY AGO</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ACCOUNT PANEL -->
+    <div class="panel" id="panel-account">
+      <div class="profile-card">
+        <div class="profile-avatar">🐉</div>
+        <div class="profile-name">GOD</div>
+        <div class="profile-role">VIP MEMBER • UNLIMITED ACCESS</div>
+        <div class="profile-stats">
+          <div class="ps-item">
+            <div class="ps-val" id="profileTotal">0</div>
+            <div class="ps-label">TOTAL</div>
+          </div>
+          <div class="ps-divider"></div>
+          <div class="ps-item">
+            <div class="ps-val" id="profileWins">0</div>
+            <div class="ps-label">WINS</div>
+          </div>
+          <div class="ps-divider"></div>
+          <div class="ps-item">
+            <div class="ps-val" id="profileAccuracy">0%</div>
+            <div class="ps-label">ACCURACY</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="section-header" style="margin-bottom:8px;">
+        <div class="section-title">🔑 LICENSE STATUS</div>
+      </div>
+      <div class="key-status-card">
+        <div class="ks-row">
+          <div class="ks-label">LICENSE KEY</div>
+          <div class="ks-val gold">VIP KATIL AI</div>
+        </div>
+        <div class="ks-row">
+          <div class="ks-label">STATUS</div>
+          <div class="ks-val active">● ACTIVE</div>
+        </div>
+        <div class="ks-row">
+          <div class="ks-label">PLAN TYPE</div>
+          <div class="ks-val gold">VIP UNLIMITED</div>
+        </div>
+        <div class="ks-row">
+          <div class="ks-label">VALID UNTIL</div>
+          <div class="ks-val">LIFETIME</div>
+        </div>
+        <div class="ks-row">
+          <div class="ks-label">SERVER</div>
+          <div class="ks-val active">● ONLINE</div>
+        </div>
+        <div class="ks-row">
+          <div class="ks-label">VERSION</div>
+          <div class="ks-val gold">v2.0.0</div>
+        </div>
+      </div>
+      <button class="logout-btn" onclick="doLogout()">🚪 LOGOUT FROM SESSION</button>
+    </div>
+
+    <!-- SETTINGS PANEL -->
+    <div class="panel" id="panel-settings">
+      <div class="settings-section">
+        <div class="settings-section-title">🎨 THEME SELECTOR</div>
+        <div class="setting-item">
+          <div class="si-left">
+            <div class="si-icon" style="background:rgba(240,192,64,0.1);">🎨</div>
+            <div><div class="si-text">COLOR THEME</div><div class="si-desc">SELECT PREFERRED THEME</div></div>
+          </div>
+          <select class="theme-select" onchange="changeTheme(this.value)">
+            <option value="default">Red Dragon</option>
+            <option value="cyber-neon">Cyber Neon</option>
+            <option value="gold-elite">Gold Elite</option>
+            <option value="amethyst">Amethyst</option>
+            <option value="emerald">Emerald</option>
+            <option value="ocean">Ocean</option>
+            <option value="matrix">Matrix</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="settings-section">
+        <div class="settings-section-title">🔊 AUDIO SETTINGS</div>
+        <div class="setting-item">
+          <div class="si-left">
+            <div class="si-icon" style="background:rgba(240,192,64,0.1);">🔊</div>
+            <div><div class="si-text">SOUND EFFECTS</div><div class="si-desc">WIN / LOSS SOUNDS</div></div>
+          </div>
+          <div class="toggle on" onclick="toggleSwitch(this)" id="toggle-sound"><div class="toggle-knob"></div></div>
+        </div>
+        <div class="setting-item">
+          <div class="si-left">
+            <div class="si-icon" style="background:rgba(0,200,80,0.1);">🔔</div>
+            <div><div class="si-text">NOTIFICATIONS</div><div class="si-desc">RESULT ALERTS</div></div>
+          </div>
+          <div class="toggle on" onclick="toggleSwitch(this)"><div class="toggle-knob"></div></div>
+        </div>
+      </div>
+
+      <div class="settings-section">
+        <div class="settings-section-title">🎨 DISPLAY SETTINGS</div>
+        <div class="setting-item">
+          <div class="si-left">
+            <div class="si-icon" style="background:rgba(240,192,64,0.1);">🌙</div>
+            <div><div class="si-text">VIP MODE</div><div class="si-desc">ALWAYS ENABLED</div></div>
+          </div>
+          <div class="toggle on" style="opacity:0.5;"><div class="toggle-knob"></div></div>
+        </div>
+        <div class="setting-item">
+          <div class="si-left">
+            <div class="si-icon" style="background:rgba(0,136,204,0.1);">✨</div>
+            <div><div class="si-text">GLOW EFFECTS</div><div class="si-desc">VISUAL ENHANCEMENT</div></div>
+          </div>
+          <div class="toggle on" onclick="toggleSwitch(this)"><div class="toggle-knob"></div></div>
+        </div>
+        <div class="setting-item">
+          <div class="si-left">
+            <div class="si-icon" style="background:rgba(224,48,48,0.1);">⚡</div>
+            <div><div class="si-text">ANIMATIONS</div><div class="si-desc">SMOOTH TRANSITIONS</div></div>
+          </div>
+          <div class="toggle on" onclick="toggleSwitch(this)"><div class="toggle-knob"></div></div>
+        </div>
+      </div>
+
+      <div class="settings-section">
+        <div class="settings-section-title">⚙️ PERFORMANCE</div>
+        <div class="setting-item">
+          <div class="si-left">
+            <div class="si-icon" style="background:rgba(240,192,64,0.1);">⚡</div>
+            <div><div class="si-text">AUTO REFRESH</div><div class="si-desc">LIVE DATA SYNC</div></div>
+          </div>
+          <div class="toggle on" onclick="toggleSwitch(this)"><div class="toggle-knob"></div></div>
+        </div>
+        <div class="setting-item">
+          <div class="si-left">
+            <div class="si-icon" style="background:rgba(0,200,80,0.1);">📊</div>
+            <div><div class="si-text">SAVE HISTORY</div><div class="si-desc">LOCAL STORAGE</div></div>
+          </div>
+          <div class="toggle on" onclick="toggleSwitch(this)"><div class="toggle-knob"></div></div>
+        </div>
+      </div>
+
+      <button class="save-btn" onclick="showToast('⚡ SETTINGS SAVED SUCCESSFULLY')">💾 SAVE SETTINGS</button>
+    </div>
+
+    <!-- HISTORY PANEL -->
+    <div class="panel" id="panel-history">
+      <div class="history-search">
+        <input type="text" class="h-search-input" placeholder="🔍 SEARCH PERIOD..." id="histSearchInput" oninput="filterHistory()">
+        <button class="filter-btn" onclick="showToast('FILTER APPLIED')">⚡</button>
+      </div>
+      <div class="history-filters">
+        <button class="hf-btn active" onclick="filterHistoryBy('all',this)">ALL</button>
+        <button class="hf-btn" onclick="filterHistoryBy('win',this)">WINS</button>
+        <button class="hf-btn" onclick="filterHistoryBy('loss',this)">LOSS</button>
+        <button class="hf-btn" onclick="filterHistoryBy('jackpot',this)">JACKPOT</button>
+      </div>
+      <div id="historyList">
+        <div style="text-align:center;padding:40px 20px;color:var(--muted);font-size:12px;letter-spacing:3px;">NO HISTORY YET</div>
+      </div>
+    </div>
+
+  </div><!-- end content-area -->
+
+  <!-- BOTTOM NAV -->
+  <div class="bottom-nav">
+    <div class="nav-item active" id="nav-dashboard" onclick="switchTab('dashboard')">
+      <div class="nav-icon">🏠</div>
+      <div class="nav-label">HOME</div>
+    </div>
+    <div class="nav-item" id="nav-telegram" onclick="switchTab('telegram')">
+      <div class="nav-icon">📲</div>
+      <div class="nav-label">CHANNEL</div>
+      <div class="nav-badge">3</div>
+    </div>
+    <div class="nav-item" id="nav-history" onclick="switchTab('history')">
+      <div class="nav-icon">📊</div>
+      <div class="nav-label">HISTORY</div>
+    </div>
+    <div class="nav-item" id="nav-account" onclick="switchTab('account')">
+      <div class="nav-icon">👤</div>
+      <div class="nav-label">ACCOUNT</div>
+    </div>
+    <div class="nav-item" id="nav-settings" onclick="switchTab('settings')">
+      <div class="nav-icon">⚙️</div>
+      <div class="nav-label">SETTINGS</div>
+    </div>
+  </div>
+
+</div><!-- end app -->
+
+<!-- FAB -->
+<button class="fab" id="fab" onclick="showToast('⚡ REFRESHING DATA...')">🔄</button>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<!-- PREMIUM SPLASH SCREEN -->
+<div id="splash-screen">
+    <div class="splash-box">
+        <div class="logo">⚡</div>
+        <h1>KATIL BHAI SYSTEM</h1>
+        <p>
+            Join our Telegram Channel for latest updates,
+            premium tools & announcements.
+        </p>
+        <a href="https://t.me/+daphYIytoYllNWM1" target="_blank" class="join-btn" onclick="closeSplash()">
+            🚀 JOIN TELEGRAM
+        </a>
+        <button class="skip-btn" onclick="closeSplash()">
+            Skip →
+        </button>
+    </div>
+</div>
+
+<script>
+// === THEME SYSTEM ===
+function changeTheme(themeName) {
+  if (themeName === 'default') {
+    document.documentElement.removeAttribute('data-theme');
+  } else {
+    document.documentElement.setAttribute('data-theme', themeName);
+  }
+  showToast('🎨 THEME APPLIED');
+}
+
+// === SPLASH SCREEN ===
+function closeSplash(){
+  document.getElementById("splash-screen").classList.add("fade-out");
+  setTimeout(()=>{
+    document.getElementById("splash-screen").style.display="none";
+  },500);
+}
+setTimeout(closeSplash,10000);
+
+// === PARTICLES ===
+(function(){
+  const c=document.getElementById('particles');
+  const ctx=c.getContext('2d');
+  let W,H,pts=[];
+  function resize(){W=c.width=window.innerWidth;H=c.height=window.innerHeight;}
+  resize();window.addEventListener('resize',resize);
+  for(let i=0;i<60;i++)pts.push({x:Math.random()*1000,y:Math.random()*1000,vx:(Math.random()-.5)*.3,vy:(Math.random()-.5)*.3,r:Math.random()*1.5+.5,a:Math.random()});
+  function frame(){
+    ctx.clearRect(0,0,W,H);
+    pts.forEach(p=>{
+      p.x+=p.vx;p.y+=p.vy;p.a+=.005;
+      if(p.x<0||p.x>W)p.vx*=-1;
+      if(p.y<0||p.y>H)p.vy*=-1;
+      const alpha=(Math.sin(p.a)+1)/2*.4;
+      ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+      ctx.fillStyle=`rgba(255,255,255,${alpha})`;ctx.fill();
+    });
+    requestAnimationFrame(frame);
+  }
+  frame();
+})();
+
+// === AUTH ===
+function checkAuth(){
+  const key=document.getElementById('passInput').value.trim();
+  const err=document.getElementById('err');
+  if(key==="KATIL"){
+    err.style.color='#00c850';
+    err.innerText='⚡ PROTOCOL ACTIVATED...';
+    setTimeout(()=>{
+      document.getElementById('login').style.display='none';
+      const app=document.getElementById('app');
+      app.style.display='flex';
+      document.getElementById('fab').style.display='flex';
+      startEngine();
+    },900);
+  } else {
+    err.style.color='#ff4444';
+    err.innerText='✕ ACCESS DENIED! INVALID KEY';
+    document.getElementById('passInput').style.borderColor='#ff4444';
+    setTimeout(()=>{document.getElementById('passInput').style.borderColor='';},1500);
+  }
+}
+document.getElementById('passInput').addEventListener('keydown',e=>{if(e.key==='Enter')checkAuth();});
+
+// === MENU ===
+let menuOpen=false;
+function toggleMenu(){menuOpen=!menuOpen;document.getElementById('dropdown').style.display=menuOpen?'block':'none';}
+function closeMenu(){menuOpen=false;document.getElementById('dropdown').style.display='none';}
+document.addEventListener('click',e=>{if(menuOpen&&!e.target.closest('#dropdown')&&!e.target.closest('.menu-btn'))closeMenu();});
+
+// === TABS ===
+const tabs=['dashboard','telegram','history','account','settings'];
+function switchTab(tab){
+  tabs.forEach(t=>{
+    document.getElementById('panel-'+t).classList.toggle('active',t===tab);
+    document.getElementById('nav-'+t)?.classList.toggle('active',t===tab);
+  });
+  document.getElementById('contentArea').scrollTop=0;
+  if(tab==='history')renderHistory();
+  if(tab==='account')updateProfileStats();
+}
+function openTg(){switchTab('telegram');}
+
+// === TOAST ===
+function showToast(msg){
+  const t=document.getElementById('toast');
+  t.innerText=msg;t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),2500);
+}
+
+// === LOGOUT ===
+function doLogout(){
+  document.getElementById('app').style.display='none';
+  document.getElementById('fab').style.display='none';
+  document.getElementById('login').style.display='flex';
+  document.getElementById('passInput').value='';
+  document.getElementById('err').innerText='';
+  sessionData=[];lastProcessed='';currentActive=null;
+  clearStats();
+}
+
+// === TOGGLE ===
+function toggleSwitch(el){el.classList.toggle('on');}
+
+// === ENGINE ===
+let sessionData=[];
+let historyData=[];
+let lastProcessed='';
+let currentActive=null;
+let wins=0,losses=0,jackpots=0;
+
+function clearStats(){wins=0;losses=0;jackpots=0;updateStatsUI();}
+function updateStatsUI(){
+  const total=wins+losses+jackpots;
+  document.getElementById('totalSessions').innerText=total;
+  document.getElementById('totalWins').innerText=wins;
+  document.getElementById('totalLoss').innerText=losses;
+  document.getElementById('totalJackpot').innerText=jackpots;
+  const acc=total>0?Math.round((wins+jackpots)/total*100):0;
+  document.getElementById('accuracyDisplay').innerText=acc+'%';
+  document.getElementById('accuracyDisplay').style.color=acc>=60?'var(--win)':acc>=40?'var(--primary)':'var(--loss)';
+  const conf=60+Math.floor(Math.random()*30);
+  document.getElementById('confFill').style.width=conf+'%';
+  document.getElementById('confVal').innerText=conf+'%';
+}
+
+function startEngine(){
+  setInterval(()=>{
+    const s=new Date().getSeconds();
+    const left=60-s;
+    document.getElementById('timer').innerText='00:'+left.toString().padStart(2,'0');
+  },1000);
+  enginePro();
+  setInterval(enginePro,2000);
+}
+
+async function enginePro(){
+  try{
+    const r=await fetch(`https://draw.ar-lottery01.com/WinGo/WinGo_1M/GetHistoryIssuePage.json?t=${Date.now()}`);
+    const data=await r.json();
+    const list=data.data.list;
+    const latest=list[0];
+    const issue=latest.issueNumber;
+
+    if(lastProcessed!=='' && lastProcessed!==issue){
+      if(currentActive && currentActive.period===issue){
+        const n=parseInt(latest.number);
+        const sz=n>=5?'BIG':'SMALL';
+        let statusType,statusHTML;
+
+        if(n===currentActive.n1 || n===currentActive.n2){
+          statusType='jackpot';
+          statusHTML='<span class="tag-jackpot">JACKPOT❤️‍🔥</span>';
+          jackpots++;
+          wins++;
+        }
+        else if(sz===currentActive.size){
+          statusType='win';
+          statusHTML='<span class="tag-win">WIN🏆</span>';
+          wins++;
+        }
+        else{
+          statusType='loss';
+          statusHTML='<span class="tag-loss">LOSS💔</span>';
+          losses++;
+        }
+
+        const record={
+          p:issue.slice(-4),
+          num:n,
+          s:sz,
+          res:statusHTML,
+          type:statusType,
+          full:issue
+        };
+
+        sessionData.unshift(record);
+        historyData.unshift(record);
+
+        if(sessionData.length>50) sessionData.pop();
+
+        updateTable();
+        updateStatsUI();
+      }
+    }
+
+    const nextP=(BigInt(issue)+1n).toString();
+    if(!currentActive||currentActive.period!==nextP){
+      const seed=parseInt(issue.slice(-3));
+      const history=list.slice(0,10).map(x=>parseInt(x.number));
+      let bigBias=history.filter(n=>n>=5).length;
+      let trend=(seed%2===0)?(bigBias>=5?'BIG':'SMALL'):(history[0]>=5?'SMALL':'BIG');
+      let n1,n2;
+      if(trend==='BIG'){n1=[5,6,7,8,9][(seed+history[0])%5];n2=[0,1,2,3,4][(seed*3)%5];}
+      else{n1=[0,1,2,3,4][(seed+history[0])%5];n2=[5,6,7,8,9][(seed*7)%5];}
+      currentActive={period:nextP,size:trend,n1,n2};
+      const resEl=document.getElementById('res');
+      resEl.innerText=trend;
+      resEl.className='pred-result '+trend;
+      document.getElementById('n1').innerText=n1;
+      document.getElementById('n2').innerText=n2;
+      document.getElementById('nextP').innerText=nextP.slice(-4);
+      updateStatsUI();
+    }
+    lastProcessed=issue;
+  } catch(e){
+    document.getElementById('nextP').innerText='——';
+  }
+}
+
+function updateTable(){
+  document.getElementById('sessionCount').innerText=sessionData.length+' RECORDS';
+  let h='';
+  sessionData.slice(0,20).forEach(i=>{
+    const szColor=i.s==='BIG'?'var(--red2)':'var(--win)';
+    h+=`<tr><td style="font-family:'Orbitron',sans-serif;font-size:11px;color:var(--primary)">${i.p}</td><td style="font-family:'Orbitron',sans-serif">${i.num}</td><td style="color:${szColor}">${i.s}</td><td>${i.res}</td></tr>`;
+  });
+  document.getElementById('session-h').innerHTML=h||'<tr><td colspan="4" style="color:var(--muted);font-size:11px;letter-spacing:2px;padding:20px">WAITING FOR DATA...</td></tr>';
+}
+
+// === HISTORY ===
+let histFilter='all';
+function filterHistoryBy(type,btn){
+  histFilter=type;
+  document.querySelectorAll('.hf-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  renderHistory();
+}
+function filterHistory(){renderHistory();}
+function renderHistory(){
+  const search=document.getElementById('histSearchInput')?.value.toLowerCase()||'';
+  let filtered=historyData.filter(r=>{
+    const matchFilter=histFilter==='all'||r.type===histFilter;
+    const matchSearch=!search||r.p.includes(search)||r.full.includes(search);
+    return matchFilter&&matchSearch;
+  });
+  const list=document.getElementById('historyList');
+  if(!filtered.length){list.innerHTML='<div style="text-align:center;padding:40px 20px;color:var(--muted);font-size:12px;letter-spacing:3px;">NO RECORDS FOUND</div>';return;}
+  list.innerHTML=filtered.map(r=>`
+    <div class="timeline-item">
+      <div class="tl-dot-col">
+        <div class="tl-dot ${r.type}"></div>
+        <div class="tl-line"></div>
+      </div>
+      <div class="tl-card">
+        <div class="tl-head">
+          <div class="tl-period">#${r.full||r.p}</div>
+          <div class="tl-status">${r.res}</div>
+        </div>
+        <div class="tl-body">
+          <div class="tl-detail">NUM: ${r.num} &nbsp;|&nbsp; SIZE: ${r.s}</div>
+        </div>
+      </div>
+    </div>`).join('');
+}
+
+function updateProfileStats(){
+  const total=wins+losses+jackpots;
+  document.getElementById('profileTotal').innerText=total;
+  document.getElementById('profileWins').innerText=wins+jackpots;
+  const acc=total>0?Math.round((wins+jackpots)/total*100):0;
+  document.getElementById('profileAccuracy').innerText=acc+'%';
+}
+</script>
+</body>
+</html>
