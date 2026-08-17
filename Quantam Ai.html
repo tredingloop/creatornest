@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TGX MODZ QUANTUM AI</title>
+    <style>
+        :root {
+            --bg: #03040a;
+            --panel: rgba(11, 14, 28, 0.82);
+            --panel-2: rgba(255,255,255,0.055);
+            --line: rgba(255, 215, 128, 0.26);
+            --gold: #f7c873;
+            --gold-2: #fff1b8;
+            --cyan: #73f7ff;
+            --violet: #8c5cff;
+            --green: #44ff9a;
+            --danger: #ff4f70;
+            --muted: #9aa3b8;
+            --text: #f8fafc;
+            --shadow: 0 22px 80px rgba(0,0,0,.65);
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            color: var(--text);
+            font-family: Inter, "Segoe UI", system-ui, -apple-system, sans-serif;
+            user-select: none;
+            overflow-x: hidden;
+            background:
+                radial-gradient(circle at 15% 0%, rgba(140,92,255,.33), transparent 32%),
+                radial-gradient(circle at 90% 12%, rgba(115,247,255,.18), transparent 30%),
+                radial-gradient(circle at 50% 100%, rgba(247,200,115,.18), transparent 35%),
+                linear-gradient(180deg, #03040a 0%, #080b16 52%, #02030a 100%);
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            background-image:
+                linear-gradient(rgba(255,255,255,.035) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,.035) 1px, transparent 1px);
+            background-size: 42px 42px;
+            mask-image: linear-gradient(to bottom, rgba(0,0,0,.65), transparent 75%);
+        }
+
+        body::after {
+            content: "";
+            position: fixed;
+            width: 280px;
+            height: 280px;
+            left: 50%;
+            top: 120px;
+            transform: translateX(-50%);
+            border-radius: 50%;
+            pointer-events: none;
+            background: radial-gradient(circle, rgba(247,200,115,.16), transparent 64%);
+            filter: blur(8px);
+        }
+
+        .shell {
+            width: 100%;
+            max-width: 440px;
+            margin: 0 auto;
+            padding: 22px 16px 28px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .header-container {
+            text-align: center;
+            padding: 18px 8px 22px;
+        }
+
+        .quantum-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 14px;
+            border: 1px solid rgba(247,200,115,.34);
+            border-radius: 999px;
+            color: var(--gold-2);
+            background: linear-gradient(135deg, rgba(247,200,115,.13), rgba(115,247,255,.06));
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: 2.6px;
+            text-transform: uppercase;
+            box-shadow: 0 0 28px rgba(247,200,115,.12);
+        }
+
+        .quantum-badge span {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: var(--green);
+            box-shadow: 0 0 16px var(--green);
+        }
+
+        .zigzag-name {
+            margin-top: 18px;
+            font-size: clamp(31px, 9vw, 44px);
+            line-height: 1.04;
+            font-weight: 950;
+            letter-spacing: 2.5px;
+            text-transform: uppercase;
+            background: linear-gradient(110deg, #ffffff, var(--gold-2), var(--cyan), #ffffff);
+            background-size: 220% auto;
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 0 28px rgba(247,200,115,.16);
+            animation: premiumShine 4.2s linear infinite;
+        }
+
+        @keyframes premiumShine {
+            to { background-position: 220% center; }
+        }
+
+        .subtitle {
+            margin-top: 10px;
+            color: var(--muted);
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: 3.2px;
+            text-transform: uppercase;
+        }
+
+        .glass-box {
+            position: relative;
+            max-width: 410px;
+            margin: 0 auto 18px;
+            padding: 24px;
+            text-align: center;
+            border-radius: 28px;
+            border: 1px solid var(--line);
+            background:
+                linear-gradient(180deg, rgba(255,255,255,.085), rgba(255,255,255,.025)),
+                var(--panel);
+            box-shadow: var(--shadow), inset 0 1px 0 rgba(255,255,255,.12);
+            backdrop-filter: blur(20px);
+            overflow: hidden;
+        }
+
+        .glass-box::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            padding: 1px;
+            border-radius: inherit;
+            background: linear-gradient(140deg, rgba(247,200,115,.72), transparent 32%, rgba(115,247,255,.45), transparent 72%, rgba(140,92,255,.42));
+            -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            pointer-events: none;
+        }
+
+        .login-title {
+            margin: 0 0 6px;
+            color: var(--gold-2);
+            font-size: 14px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+        }
+
+        .login-sub {
+            margin: 0 0 14px;
+            color: var(--muted);
+            font-size: 12px;
+        }
+
+        input {
+            width: 100%;
+            padding: 16px 15px;
+            margin: 14px 0 16px;
+            outline: none;
+            text-align: center;
+            color: var(--gold-2);
+            font-size: 15px;
+            font-weight: 800;
+            letter-spacing: 1px;
+            background: rgba(0,0,0,.42);
+            border: 1px solid rgba(247,200,115,.22);
+            border-radius: 16px;
+            box-shadow: inset 0 0 22px rgba(0,0,0,.32);
+        }
+
+        input::placeholder { color: rgba(255,241,184,.38); }
+
+        .btn-main {
+            width: 100%;
+            padding: 16px;
+            border: none;
+            border-radius: 16px;
+            color: #09070c;
+            font-weight: 950;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            cursor: pointer;
+            background: linear-gradient(135deg, var(--gold-2), var(--gold) 46%, #d79437);
+            box-shadow: 0 12px 32px rgba(247,200,115,.24), inset 0 1px 0 rgba(255,255,255,.55);
+        }
+
+        .btn-main:active { transform: scale(.985); }
+
+        .metric-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .metric-card {
+            padding: 12px 10px;
+            border-radius: 18px;
+            background: rgba(255,255,255,.045);
+            border: 1px solid rgba(255,255,255,.08);
+        }
+
+        .metric-label {
+            color: var(--muted);
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: 1.6px;
+            text-transform: uppercase;
+        }
+
+        .metric-value {
+            margin-top: 5px;
+            color: var(--gold-2);
+            font-size: 12px;
+            font-weight: 900;
+            word-break: break-all;
+        }
+
+        .pred-val {
+            margin: 18px 0 12px;
+            font-size: clamp(50px, 15vw, 70px);
+            line-height: 1;
+            font-weight: 950;
+            letter-spacing: 2px;
+            background: linear-gradient(120deg, #fff, var(--gold), var(--cyan));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 0 30px rgba(247,200,115,.16);
+        }
+
+        .opposite-box {
+            color: var(--gold-2);
+            font-size: 13px;
+            font-weight: 900;
+            border: 1px solid rgba(247,200,115,.36);
+            padding: 11px;
+            border-radius: 16px;
+            background: linear-gradient(135deg, rgba(247,200,115,.12), rgba(115,247,255,.05));
+        }
+
+        table {
+            width: 100%;
+            margin-top: 20px;
+            border-collapse: separate;
+            border-spacing: 0 8px;
+            font-size: 11px;
+        }
+
+        th {
+            color: var(--muted);
+            padding: 8px;
+            font-size: 10px;
+            letter-spacing: 1.4px;
+        }
+
+        td {
+            padding: 11px 7px;
+            text-align: center;
+            background: rgba(255,255,255,.045);
+            border-top: 1px solid rgba(255,255,255,.06);
+            border-bottom: 1px solid rgba(255,255,255,.06);
+        }
+
+        td:first-child { border-radius: 14px 0 0 14px; border-left: 1px solid rgba(255,255,255,.06); }
+        td:last-child { border-radius: 0 14px 14px 0; border-right: 1px solid rgba(255,255,255,.06); }
+
+        .win { color: var(--green); font-weight: 950; }
+        .loss { color: var(--danger); font-weight: 950; }
+        .hidden { display: none; }
+
+        .footer-branding {
+            margin-top: 18px;
+            text-align: center;
+        }
+
+        .name-box {
+            display: inline-block;
+            padding: 12px 24px;
+            border-radius: 999px;
+            border: 1px solid rgba(115,247,255,.28);
+            color: var(--cyan);
+            font-size: 11px;
+            font-weight: 950;
+            letter-spacing: 2.4px;
+            cursor: pointer;
+            background: rgba(115,247,255,.055);
+            box-shadow: 0 0 24px rgba(115,247,255,.10);
+        }
+
+        .admin-modal {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 90%;
+            max-width: 360px;
+            padding: 22px;
+            z-index: 1000;
+            border-radius: 24px;
+            border: 1px solid rgba(247,200,115,.45);
+            background: linear-gradient(180deg, rgba(18,20,35,.98), rgba(5,6,12,.98));
+            box-shadow: 0 30px 90px rgba(0,0,0,.75);
+        }
+
+        .admin-modal h3 {
+            color: var(--gold-2);
+            text-align: center;
+            margin-top: 0;
+            letter-spacing: 2px;
+        }
+
+        select {
+            width: 100%;
+            padding: 13px;
+            color: #fff;
+            background: rgba(255,255,255,.06);
+            border: 1px solid rgba(255,255,255,.18);
+            border-radius: 14px;
+            outline: none;
+        }
+
+        .overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,.76);
+            z-index: 999;
+            backdrop-filter: blur(8px);
+        }
+
+        .logout-btn {
+            background: transparent;
+            color: rgba(255,255,255,.38);
+            border: none;
+            margin-top: 10px;
+            font-size: 10px;
+            letter-spacing: 1.5px;
+            cursor: pointer;
+        }
+
+        #err {
+            color: var(--danger);
+            font-size: 12px;
+            margin-top: 11px;
+            min-height: 16px;
+            font-weight: 800;
+        }
+
+        #outKey {
+            margin-top: 15px;
+            color: var(--cyan);
+            font-size: 11px;
+            word-break: break-all;
+            line-height: 1.6;
+        }
+    </style>
+</head>
+<body oncontextmenu="return false;">
+    <div class="shell">
+        <div class="header-container">
+            <div class="quantum-badge"><span></span> QUANTUM PREMIUM ACCESS</div>
+            <div class="zigzag-name">TGX MODZ<br>QUANTUM AI</div>
+            <div class="subtitle">ELITE LOGIC V15</div>
+        </div>
+
+        <div id="loginPage" class="glass-box">
+            <h3 class="login-title">Enter License</h3>
+            <p class="login-sub">Secure activation for TGX MODZ QUANTUM AI</p>
+            <input type="text" id="keyIn" placeholder="VQ-AI-XXXXX">
+            <button class="btn-main" onclick="startSystem()">Activate Quantum</button>
+            <p id="err"></p>
+        </div>
+
+        <div id="appPage" class="glass-box hidden">
+            <div class="metric-row">
+                <div class="metric-card">
+                    <div class="metric-label">Next Period</div>
+                    <div class="metric-value" id="pID">---</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-label">Engine</div>
+                    <div class="metric-value">VQ SYNC</div>
+                </div>
+            </div>
+
+            <div class="pred-val" id="pRes">WAIT...</div>
+            <div class="opposite-box" id="pOpps">ANALYZING...</div>
+
+            <table>
+                <thead><tr><th>PRD</th><th>PRED</th><th>NUM</th><th>STATUS</th></tr></thead>
+                <tbody id="logs"></tbody>
+            </table>
+            <button class="logout-btn" onclick="logout()">LOGOUT</button>
+        </div>
+
+        <div class="footer-branding">
+            <div class="name-box" onclick="triggerAdmin()">TGX MODZ QUANTUM AI</div>
+        </div>
+    </div>
+
+    <div id="overlay" class="overlay hidden" onclick="closeAdmin()"></div>
+    <div id="adminPanel" class="admin-modal hidden">
+        <h3>MASTER CONTROL</h3>
+        <select id="keyValidity">
+            <option value="30">30 MINUTES</option>
+            <option value="1440">1 DAY</option>
+            <option value="10080">7 DAYS</option>
+            <option value="43200">30 DAYS</option>
+        </select>
+        <button class="btn-main" style="margin-top: 15px;" onclick="genKey()">Generate Premium Key</button>
+        <div id="outKey"></div>
+    </div>
+
+<script>
+    const ADMIN_PASS = "TGX121";
+    const B_POOL = [5,6,7,8,9], S_POOL = [0,1,2,3,4];
+    const KEY_PREFIX = "VQ-AI-";
+    let currentOpposites = [];
+
+    function validateKeyFormat(key) {
+        // Permanent master key
+        if(key === "TGX121") return true;
+
+        if(!key.startsWith(KEY_PREFIX)) return false;
+        try {
+            // KEY_PREFIX contains a hyphen, so read the expiry from the LAST key part
+            const parts = key.split("-");
+            const expiryCode = parts[parts.length - 1];
+            const expiry = parseInt(atob(expiryCode));
+            return expiry > Date.now();
+        } catch(e) { return false; }
+    }
+
+    window.onload = () => {
+        const savedKey = localStorage.getItem('VQ_ACTIVE_KEY');
+        if(savedKey && validateKeyFormat(savedKey)) {
+            document.getElementById('keyIn').value = savedKey;
+            startSystem();
+        }
+    };
+
+    function startSystem() {
+        const key = document.getElementById('keyIn').value.trim();
+        if(validateKeyFormat(key)) {
+            localStorage.setItem('VQ_ACTIVE_KEY', key);
+            document.getElementById('loginPage').classList.add('hidden');
+            document.getElementById('appPage').classList.remove('hidden');
+            runLogic();
+        } else { document.getElementById('err').innerText = "INVALID KEY!"; }
+    }
+
+    async function runLogic() {
+        setInterval(async () => {
+            try {
+                const res = await fetch('https://draw.ar-lottery01.com/WinGo/WinGo_1M/GetHistoryIssuePage.json');
+                const json = await res.json();
+                const latest = json.data.list[0];
+
+                // Prediction Logic
+                const last5 = json.data.list.slice(0, 5).map(x => parseInt(x.number) >= 5 ? "BIG" : "SMALL");
+                const nextPred = last5.filter(x => x === "BIG").length > 2 ? "BIG" : "SMALL";
+
+                if(window.lastId !== latest.issueNumber) {
+                    const actualNum = parseInt(latest.number);
+                    const actualSize = actualNum >= 5 ? "BIG" : "SMALL";
+                    let lastPred = window.savedPrediction || nextPred;
+                    let lastOpps = window.savedOpps || [];
+
+                    if(window.lastId) {
+                        // Check Size WIN OR Number WIN
+                        const isWin = (lastPred === actualSize) || lastOpps.includes(actualNum);
+                        const statusText = isWin ? 'WIN ◆' : 'LOSS ◇';
+                        const row = `<tr><td>${latest.issueNumber.slice(-3)}</td><td>${lastPred}</td><td>${actualNum}</td><td class="${isWin?'win':'loss'}">${statusText}</td></tr>`;
+                        document.getElementById('logs').innerHTML = row + document.getElementById('logs').innerHTML;
+                    }
+
+                    window.lastId = latest.issueNumber;
+                    window.savedPrediction = nextPred;
+
+                    // STRICT OPPOSITE: If Prediction is BIG, then numbers MUST be SMALL
+                    const pool = nextPred === "BIG" ? S_POOL : B_POOL;
+                    currentOpposites = pool.sort(() => 0.5 - Math.random()).slice(0, 2);
+                    window.savedOpps = currentOpposites;
+                }
+
+                document.getElementById('pID').innerText = (BigInt(latest.issueNumber) + 1n).toString();
+                document.getElementById('pRes').innerText = nextPred;
+                document.getElementById('pOpps').innerText = "OPPOSITE NUMS: " + currentOpposites.join("  •  ");
+            } catch(e) {}
+        }, 3000);
+    }
+
+    function triggerAdmin() {
+        if(prompt("PASSWORD:") === ADMIN_PASS) {
+            document.getElementById('adminPanel').classList.remove('hidden');
+            document.getElementById('overlay').classList.remove('hidden');
+        }
+    }
+
+    function genKey() {
+        const mins = document.getElementById('keyValidity').value;
+        const expiryTime = Date.now() + (mins * 60 * 1000);
+        const randomStr = Math.random().toString(36).substr(2, 5).toUpperCase();
+        const newKey = `${KEY_PREFIX}${randomStr}-${btoa(expiryTime.toString())}`;
+        document.getElementById('outKey').innerText = "KEY: " + newKey;
+        navigator.clipboard.writeText(newKey).then(() => alert("COPIED!"));
+    }
+
+    function logout() { localStorage.removeItem('VQ_ACTIVE_KEY'); location.reload(); }
+    function closeAdmin() { document.getElementById('adminPanel').classList.add('hidden'); document.getElementById('overlay').classList.add('hidden'); }
+</script>
+</body>
+<!-- PREMIUM SPLASH SCREEN -->
+<div id="splash-screen">
+    <div class="splash-box">
+
+        <div class="logo">⚡</div>
+
+        <h1>TGXMODZ BHAI SYSTEM</h1>
+
+        <p>
+            Join our Telegram Channel for latest updates,
+            premium tools & announcements.
+        </p>
+
+        <a href="https://t.me/+K0mePglDSZo5ZmRl"
+           target="_blank"
+           class="join-btn"
+           onclick="closeSplash()">
+            🚀 JOIN TELEGRAM
+        </a>
+
+        <button class="skip-btn" onclick="closeSplash()">
+            Skip →
+        </button>
+
+    </div>
+</div>
+
+<style>
+#splash-screen{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:linear-gradient(135deg,#050505,#111,#050505);
+display:flex;
+justify-content:center;
+align-items:center;
+z-index:99999;
+transition:.5s;
+}
+
+.splash-box{
+width:90%;
+max-width:360px;
+padding:30px;
+border-radius:25px;
+background:rgba(255,255,255,.05);
+backdrop-filter:blur(15px);
+border:1px solid rgba(57,255,20,.3);
+text-align:center;
+box-shadow:0 0 30px rgba(57,255,20,.2);
+animation:pop .8s;
+}
+
+@keyframes pop{
+from{
+transform:scale(.8);
+opacity:0;
+}
+to{
+transform:scale(1);
+opacity:1;
+}
+}
+
+.logo{
+width:90px;
+height:90px;
+margin:auto;
+border-radius:50%;
+background:#111;
+display:flex;
+justify-content:center;
+align-items:center;
+font-size:45px;
+color:#39ff14;
+border:2px solid #39ff14;
+box-shadow:0 0 25px #39ff14;
+animation:pulse 2s infinite;
+}
+
+@keyframes pulse{
+50%{
+box-shadow:0 0 45px #39ff14;
+transform:scale(1.08);
+}
+}
+
+h1{
+color:#39ff14;
+margin:20px 0 10px;
+letter-spacing:3px;
+font-size:28px;
+font-family:sans-serif;
+}
+
+p{
+color:#ccc;
+font-size:14px;
+line-height:22px;
+margin-bottom:25px;
+font-family:sans-serif;
+}
+
+.join-btn{
+display:block;
+padding:15px;
+border-radius:50px;
+background:#39ff14;
+color:#000;
+font-weight:bold;
+text-decoration:none;
+font-family:sans-serif;
+transition:.3s;
+}
+
+.join-btn:hover{
+transform:scale(1.05);
+box-shadow:0 0 20px #39ff14;
+}
+
+.skip-btn{
+margin-top:15px;
+width:100%;
+padding:13px;
+border:none;
+border-radius:50px;
+background:#222;
+color:#fff;
+font-size:15px;
+cursor:pointer;
+transition:.3s;
+}
+
+.skip-btn:hover{
+background:#333;
+}
+
+.fade-out{
+opacity:0;
+pointer-events:none;
+}
+</style>
+
+<script>
+function closeSplash(){
+document.getElementById("splash-screen").classList.add("fade-out");
+
+setTimeout(()=>{
+document.getElementById("splash-screen").style.display="none";
+},500);
+}
+
+// Auto Hide after 10 seconds
+setTimeout(closeSplash,10000);
+</script>
+</html>
